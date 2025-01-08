@@ -1,3 +1,6 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=East+Sea+Dokdo&family=Gamja+Flower&family=Mynerve&family=Nothing+You+Could+Do&family=Playpen+Sans:wght@100..800&family=Yomogi&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -18,4 +21,26 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  font-size: 2em; /* Adjust the font size */
+  font-weight: bold; /* Ensure the font weight is bold */
+  margin: 0.67em 0; /* Adjust the top and bottom margins */
+  color: var(--foreground); /* Use a custom color if needed */
+}
+
+.custom-button-class {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 20px;
+}
+
+.custom-button-class:hover {
+  background-color: #0056b3;
 }
