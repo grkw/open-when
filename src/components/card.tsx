@@ -11,6 +11,9 @@ export interface CardProps{
 }
 
 export default function Card({prompt, className}: CardProps) {
-    console.log(arguments);
-    return (<div className={`${styles.card} ${className}`}><p>{prompt}</p></div>);
+    // console.log(arguments);
+    function handleClick() {
+        console.log('card clicked!');
+    }
+    return (<div className={`${styles.card} ${className}`}><p><button onClick={handleClick}>{prompt}</button></p></div>);
 }
