@@ -3,8 +3,9 @@
   text-align: center;
   align-items: center;
   justify-content: center;
-  /* border: 3px solid antiquewhite; */
-  padding: 16px;
+  
+  padding-top: 3em;
+  padding-bottom: 3em;
   border-radius: 2px;
   background-color: beige;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

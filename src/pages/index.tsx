@@ -19,10 +19,9 @@ const geistMono = Geist_Mono({
 export default function Home() {
   return (
     <div style={{ fontSize: 14, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <h1>Open when...</h1>
-      <p>Available community-donated letter credits: </p>
-      <p>Welcome!</p>
-      <button className="custom-button-class"><Link href='/write_letter'>Write a letter</Link></button>
+      <h1>open when...</h1>
+      <p>available community-donated letter credits: </p>
+      <p>welcome!</p>
       <Board></Board>
       <LetterEditor></LetterEditor>
       <LetterViewer prompt="you're feeling sad" author_name="grace" author_location="here" created_date="now" letter_body="sorry to hear that"></LetterViewer>

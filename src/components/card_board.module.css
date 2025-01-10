@@ -1,0 +1,22 @@
+.table {
+    width: 80%;
+    border-collapse: collapse;
+    border: none;
+}
+
+.table td {
+    border: none;
+    padding: 8px;
+}
+
+.table .col-1 {
+    width: 30%;
+}
+
+.table .col-2 {
+    width: 30%;
+}
+
+.table .col-3 {
+    width: 30%;
+}
