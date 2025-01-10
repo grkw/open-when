@@ -25,7 +25,7 @@ export default function Home() {
       <button className="custom-button-class"><Link href='/write_letter'>Write a letter</Link></button>
       <Board></Board>
       <LetterEditor></LetterEditor>
-      <LetterViewer></LetterViewer>
+      <LetterViewer prompt="you're feeling sad" author_name="grace" author_location="here" created_date="now" letter_body="sorry to hear that"></LetterViewer>
     </div>
   );
 }
