@@ -18,13 +18,14 @@ const geistMono = Geist_Mono({
 
 export default function Home() {
   return (
-    <div style={{ fontSize: 14, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <h1>open when...</h1>
-      <p>available community-donated letter credits: </p>
       <p>welcome!</p>
-      <Board></Board>
-      <LetterEditor></LetterEditor>
+      <div style={{ display: 'flex', justifyContent: 'space-between', width: '90%' }}>
+      <Board />
+      <LetterEditor />
+      </div>
       <LetterViewer prompt="you're feeling sad" author_name="grace" author_location="here" created_date="now" letter_body="sorry to hear that"></LetterViewer>
-    </div>
-  );
+    </div> 
+  ); // TODO: once user hits "submit", the LetterEditor is replaced by text that says "click one of the letters to open it" and the LetterViewer replaces the LetterEditor
 }

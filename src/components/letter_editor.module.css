@@ -1,12 +1,7 @@
-textarea {
-    
-}
-
-input[type="submit"], button {
-    border-radius: 3px;
-    cursor: pointer;
-    background-color: #ebebeb;
-}
-input[type="submit"]:hover, button:hover {
-    background-color: #dfdfdf;
+.formModule {
+    /* display: flex;
+    flex-direction: column; */
+    padding: 1em;
+    /* text-align: left; /* Left-align text */
+    align-self: flex-start;
 }
