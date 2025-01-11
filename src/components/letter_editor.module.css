@@ -1,7 +1,9 @@
 .formModule {
-    /* display: flex;
-    flex-direction: column; */
     padding: 1em;
-    /* text-align: left; /* Left-align text */
+    padding-top: 0px;
     align-self: flex-start;
+}
+
+.letterBodyEditor {
+    background-color: oldlace;
 }

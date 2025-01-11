@@ -1,5 +1,6 @@
 .table {
     width: 80%;
+    height: 100%;
     border-collapse: collapse;
     border: none;
 }
@@ -7,6 +8,7 @@
 .table td {
     border: none;
     padding: 8px;
+    padding-bottom: 24px;
 }
 
 .table .col-1 {

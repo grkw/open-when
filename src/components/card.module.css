@@ -6,10 +6,10 @@
   width: 250px; 
   height: 150px;
   padding-top: 0em;
-  padding-bottom: 3em;
+  padding-bottom: 0em;
   border-radius: 2px;
   background-color: oldlace;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
 }
 
 .card button {

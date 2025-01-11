@@ -25,7 +25,8 @@ export default function Home() {
       <Board />
       <LetterEditor />
       </div>
-      <LetterViewer prompt="you're feeling sad" author_name="grace" author_location="here" created_date="now" letter_body="sorry to hear that"></LetterViewer>
+      <LetterViewer is_browser={true} prompt="you're feeling sad" author_name="grace" author_location="here" created_date="now" opener_name="joy" opener_location="there" opened_date="tomorrow" letter_body="sorry to hear that"></LetterViewer>
+      <LetterViewer is_browser={false} prompt="you're feeling sad" author_name="grace" author_location="here" created_date="now" opener_name="joy" opener_location="there" opened_date="tomorrow" letter_body="sorry to hear that"></LetterViewer>
     </div> 
   ); // TODO: once user hits "submit", the LetterEditor is replaced by text that says "click one of the letters to open it" and the LetterViewer replaces the LetterEditor
 }

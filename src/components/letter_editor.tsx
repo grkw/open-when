@@ -26,18 +26,9 @@ export default function LetterEditor() {
     return (
         <div>
         <form className={ styles.formModule }>
-             <p style={ { fontSize: '1.5em' }}>write a letter</p>
-            <label>
-                name (ex. "Grace", "ya girl", "kind carrot") <br />
-                <input id="authorname" style={{ width: '10em' }} minLength={0} maxLength={25} placeholder='' />
-            </label>
-            <br />
-            <label>
-                where you're writing from (ex. "NYC", "under a blanket", "the other side") <br />
-                <input id="authorlocation" style={{ width: '10em' }} minLength={0} maxLength={25} placeholder='' />
-            </label>
-            <br />
-            <label>
+             <p><h2>write a letter</h2></p>
+             <div className={ styles.letterBodyEditor}>
+             <label>
                 select a prompt: "open when..." <br />
                 <select onChange={handleSelectChange} required >
                     <option value="you're feeling blue">you're feeling blue</option>
@@ -46,6 +37,8 @@ export default function LetterEditor() {
                     <option value="other">other</option>
                 </select>
             </label>
+            <br />
+
             {showOtherInput && (
                 <label>
                     please specify <br />
@@ -54,8 +47,18 @@ export default function LetterEditor() {
             )}
             <br />
             <label>
-                write your letter! (100 to 2000 chars)<br />
-                <textarea style={{ height: '10em', width: '40em' }} minLength={100} maxLength={2000} placeholder="" required />
+                written by <input id="authorname" style={{ width: '10em' }} minLength={0} maxLength={25} placeholder='name (ex. "Grace", "ya girl", "kind carrot")' />
+            </label>
+            <label>
+                in <input id="authorlocation" style={{ width: '10em' }} minLength={0} maxLength={25} placeholder={'where you\'re writing from (ex. "NYC", "under a blanket", "the other side")'} />
+            </label>
+            <label>
+                at <input id="currentdatetime" style={{ width: '10em' }} minLength={0} maxLength={25} placeholder={'datetime'} />
+            </label>
+                and opened by ??? in ??? at ???
+            <br />
+            <label>
+                <textarea style={{ height: '10em', width: '40em' }} minLength={100} maxLength={2000} placeholder="write your letter! (100 to 2000 chars)" required />
             </label>
             <br />
             <label>
@@ -63,6 +66,7 @@ export default function LetterEditor() {
                 <input type="file" accept=".png, .jpg, .jpeg" />
             </label>
             <br />
+            </div>
             <label>
                 would you like to donate your open credit to the community? 
                 <input type="checkbox" />
@@ -86,7 +90,7 @@ export default function LetterEditor() {
                 <Link href='/write_letter'>submit</Link>
             </button>
         </form>
-        <p>not in the letter-writing headspace, but still want to read a letter? you can use a community-donated letter credit (# available): </p>
+        <p>not in the letter-writing headspace, but still want to open a new letter? you can use a community-donated letter credit (# available): </p>
         <button>use a credit</button>
         </div>
     );

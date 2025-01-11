@@ -19,6 +19,11 @@ h1 {
   padding: 2em;
 }
 
+h2 {
+  font-size: 1.5em;
+  /* padding: 1.5em; */
+}
+
 .custom-button-class {
     border: 1px solid #cecece;
     padding: 3px;
