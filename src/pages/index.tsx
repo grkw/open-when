@@ -22,11 +22,16 @@ export default function Home() {
       <h1>open when...</h1>
       <p>welcome!</p>
       <div style={{ display: 'flex', justifyContent: 'space-between', width: '90%' }}>
-      <Board />
-      <LetterEditor />
+        <div style={{ flex: '1 1 50%' }}>
+          <Board />
+        </div>
+        <div style={{ flex: '1 1 50%' }}>
+          <h2> <button>browse open letters</button> <button>write a letter</button> <button>open a new letter</button></h2>
+        </div>
       </div>
       <LetterViewer is_browser={true} prompt="you're feeling sad" author_name="grace" author_location="here" created_date="now" opener_name="joy" opener_location="there" opened_date="tomorrow" letter_body="sorry to hear that"></LetterViewer>
+      <LetterEditor />
       <LetterViewer is_browser={false} prompt="you're feeling sad" author_name="grace" author_location="here" created_date="now" opener_name="joy" opener_location="there" opened_date="tomorrow" letter_body="sorry to hear that"></LetterViewer>
-    </div> 
+    </div>
   ); // TODO: once user hits "submit", the LetterEditor is replaced by text that says "click one of the letters to open it" and the LetterViewer replaces the LetterEditor
 }

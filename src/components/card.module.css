@@ -1,8 +1,9 @@
 .card {
+  /* display: flex; */
   color:black;
   text-align: center;
-  align-items: center;
-  justify-content: flex-start;
+  /* align-items: center; */
+  /* justify-content: center; */
   width: 250px; 
   height: 150px;
   padding-top: 0em;
@@ -12,9 +13,9 @@
   /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
 }
 
-.card button {
+/* .card button {
   border: none;
-}
+} */
 
 .triangleDown {
   width: 0;
@@ -23,5 +24,5 @@
   border-right: 125px solid transparent;
   border-top: 70px solid antiquewhite;
   outline: black;
-  margin: 0px auto;
+  /* margin: 0px auto; */
 }
