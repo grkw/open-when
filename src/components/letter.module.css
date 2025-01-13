@@ -1,4 +1,4 @@
-.letter_viewer {
+.letter {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto; /* Three rows with automatic height */

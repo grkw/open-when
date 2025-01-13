@@ -10,15 +10,15 @@ export interface EnvelopeProps {
     className?: string,
 } // TODO: add animation for which envelope is being opened (will show an empty envelope)
 
-export default function Envelope({ prompt, className }: EnvelopeProps) {
+export default function Envelope({ prompt, className, opened }: EnvelopeProps) {
     // console.log(arguments);
     function handleClick() {
         console.log('envelope clicked!');
     }
     return (<div>
-    <p style={{ textAlign: 'center' }}># opened, # unopened</p>
+    {/* <p style={{ textAlign: 'center' }}># opened</p> */}
     <div className={`${styles.envelope} ${className}`}>
-        <div className={styles.triangleDown}></div>
+        <div className={opened ? styles.triangleUp : styles.triangleDown}></div>
         <p style={{ paddingTop: '20px' }}><button onClick={handleClick}>{prompt}</button></p>
         </div>
         </div>);
