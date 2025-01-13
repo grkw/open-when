@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import Board from "@/components/card_board";
+import EnvelopeBoard from "@/components/envelope_board";
 import LetterViewer from "@/components/letter_viewer";
 import LetterEditor from "@/components/letter_editor";
 
@@ -12,7 +12,7 @@ export default function Home() {
       <p>welcome!</p>
       <div style={{ display: 'flex', justifyContent: 'space-between', width: '90%' }}>
         <div style={{ flex: '1 1 50%' }}>
-          <Board />
+          <EnvelopeBoard />
         </div>
         <div style={{ flex: '1 1 50%' }}>
           <h2 style={{ display: 'flex', justifyContent: 'center', gap: '32px' }}>
