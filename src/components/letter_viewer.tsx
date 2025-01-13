@@ -15,8 +15,8 @@ export interface LetterViewerProps {
 export default function LetterViewer({is_browser, prompt, author_name, author_location, created_date, opener_name, opener_location, opened_date, letter_body}: LetterViewerProps) {
     return (
         <div>
-            { is_browser ? (<p><h2>browse open letters</h2></p>):
-           (<p><h2>open a new letter</h2></p>) 
+            { is_browser ? (<h2>browse open letters</h2>):
+           (<h2>open a new letter</h2>) 
             }
         <div className={styles.letter_viewer}>
         <div className={styles.prompt}>{prompt}</div>

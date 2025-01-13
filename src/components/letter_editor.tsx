@@ -26,7 +26,7 @@ export default function LetterEditor() {
     return (
         <div>
         <form className={ styles.formModule }>
-             <p><h2>write a letter</h2></p>
+             <h2>write a letter</h2>
              <div className={ styles.letterBodyEditor}>
              <label>
                 select a prompt: "open when..." <br />

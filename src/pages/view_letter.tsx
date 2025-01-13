@@ -5,7 +5,7 @@ export default function CardView() {
     const [data, setData] = useState<any[] | null>(null);
 
     useEffect(() => {
-        supabase.from("Cards").select().then((response) => {
+        supabase.from("letters").select().then((response) => {
             if (response.error) {
                 console.error(response.error);
                 setData(null);
