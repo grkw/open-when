@@ -1,12 +1,40 @@
-import styles from '@/components/letter_editor.module.css';
-import Link from 'next/link';
-import PromptSelector from './prompt_selector';
+import { useState } from 'react';
 
-export default function LetterEditor() {
+import styles from '@/components/letter_editor.module.css';
+import PromptSelector from './prompt_selector';
+import Envelope from "@/components/envelope";
+
+export interface LetterEditorProps {
+    setHasWrittenLetter: (value: boolean) => void;
+    setView: (value: string) => void;
+}
+
+export default function LetterEditor({ setHasWrittenLetter, setView}: LetterEditorProps) {
+
+    const [isSubmitted, setIsSubmitted] = useState(false);
+
+    const handleSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+        setHasWrittenLetter(true);
+        setIsSubmitted(true);
+    }
+
+    if (isSubmitted) {
+        return (
+            <div>
+                <h2>your letter has been submitted.</h2>
+                <p>there are now # of community letter credits!</p>
+                <Envelope prompt='prompt' text='' image_id='' className='hi' opened={false}/>
+                <button onClick={() => setIsSubmitted(false)}>write another letter</button>
+                <button onClick={() => setView('browse')}>return to browsing</button>
+                <button onClick={() => setView('open')}>open a new letter</button> 
+            </div>
+        );
+    }
 
     return (
         <div>
-        <form className={ styles.formModule }>
+        <form className={ styles.formModule } onSubmit={handleSubmit}>
              <h2>write a letter</h2>
              <div className={ styles.letterBodyEditor}>
             <PromptSelector></PromptSelector>
@@ -51,12 +79,13 @@ export default function LetterEditor() {
             </div>
             <br />
             <button type="reset">reset</button>
-            <button className="custom-button-class">
-                <Link href='/write_letter'>submit</Link>
+            <button type="submit" className="custom-button-class">
+                submit
             </button>
+
+            <button onClick={() => setView('browse')}>return to browsing</button>
+           
         </form>
-        <p>not in the letter-writing headspace, but still want to open a new letter? you can use a community-donated letter credit (# available): </p>
-        <button>use a credit</button>
         </div>
     );
 }
