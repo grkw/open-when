@@ -24,7 +24,7 @@ export default function LetterOpener({hasWrittenLetter, setHasWrittenLetter, set
                 <div>
                     <p>thank you for writing a letter! you can now open a new letter. select the prompt you'd like:</p>
                     <PromptSelector></PromptSelector>
-                    <Envelope prompt='prompt' text='' image_id='' className='hi' opened={false}/>
+                    <Envelope prompt='prompt'/>
                     <button onClick={handleOpenLetter}>open!</button>
                     
                     {/* <Letter></Letter> */}

@@ -24,7 +24,7 @@ export default function LetterEditor({ setHasWrittenLetter, setView}: LetterEdit
             <div>
                 <h2>your letter has been submitted.</h2>
                 <p>there are now # of community letter credits!</p>
-                <Envelope prompt='prompt' text='' image_id='' className='hi' opened={false}/>
+                <Envelope prompt='prompt'/>
                 <button onClick={() => setIsSubmitted(false)}>write another letter</button>
                 <button onClick={() => setView('browse')}>return to browsing</button>
                 <button onClick={() => setView('open')}>open a new letter</button> 
