@@ -13,6 +13,8 @@ export interface LetterOpenerProps {
 // 2. and we only let them open one letter.
 export default function LetterOpener({hasWrittenLetter, setHasWrittenLetter, setView}: LetterOpenerProps) {
 
+    const [selectedPrompt, setSelectedPrompt] = useState<string>('');
+
     const handleOpenLetter = () => {
         setHasWrittenLetter(false);
     }
@@ -23,8 +25,8 @@ export default function LetterOpener({hasWrittenLetter, setHasWrittenLetter, set
             {hasWrittenLetter ? (
                 <div>
                     <p>thank you for writing a letter! you can now open a new letter. select the prompt you'd like:</p>
-                    <PromptSelector></PromptSelector>
-                    <Envelope prompt='prompt'/>
+                    <PromptSelector onSelectPrompt={setSelectedPrompt}></PromptSelector>
+                    <Envelope prompt={selectedPrompt}/>
                     <button onClick={handleOpenLetter}>open!</button>
                     
                     {/* <Letter></Letter> */}

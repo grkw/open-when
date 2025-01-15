@@ -15,7 +15,7 @@ export default function LetterBrowser({ setView }: LetterBrowserProps) {
     const [data, setData] = useState<LetterProps[] | null>(null);
 
     useEffect(() => { // The useEffect hook is used to perform a side effect (fetching data from Supabase) after the component mounts.
-        supabase.from("letters").select('*').then((response) => {
+        supabase.from("letters").select().eq('is_opened','true').then((response) => {
             if (response.error) {
                 console.error(response.error);
                 setData(null);

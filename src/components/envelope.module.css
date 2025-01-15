@@ -1,19 +1,15 @@
 .envelope {
-  /* display: flex; */
   color:black;
   text-align: center;
-  /* align-items: center; */
-  /* justify-content: center; */
   width: 250px; 
   height: 150px;
   padding-top: 0em;
   padding-bottom: 0em;
   border-radius: 2px;
   background-color: oldlace;
-  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
 }
 
-.card button {
+.button {
   border: none;
 }
 
@@ -24,5 +20,4 @@
   border-right: 125px solid transparent;
   border-top: 70px solid antiquewhite;
   outline: black;
-  /* margin: 0px auto; */
 }

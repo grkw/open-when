@@ -5,7 +5,6 @@ export interface EnvelopeProps {
 } // TODO: add animation for which envelope is being opened (will show an empty envelope)
 
 export default function Envelope({ prompt }: EnvelopeProps) {
-    // console.log(arguments);
     function handleClick() {
         console.log('envelope clicked!');
     }

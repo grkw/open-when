@@ -1,11 +1,13 @@
 import { useState } from 'react';
 
-export default function PromptSelector() {
+export interface PromptSelectorProps {
+    onSelectPrompt?: (prompt: string) => void; // `?` means optional
+}
+
+export default function PromptSelector({ onSelectPrompt }: PromptSelectorProps) {
 
     const [showOtherInput, setShowOtherInput] = useState(false);
-    // showOtherInput: boolean state variable set to a default value of false
-    // setShowOtherInput: a function to update the value of showOtherInput
-
+    
     // TS interface to type the event object for the handleSelectChange function
     interface SelectChangeEvent {
         target: { // target element that triggered the event
@@ -14,6 +16,9 @@ export default function PromptSelector() {
     }
 
     const handleSelectChange = (event: SelectChangeEvent) => {
+        if (onSelectPrompt) {
+            onSelectPrompt(event.target.value);
+        }
         if (event.target.value === 'other') {
             setShowOtherInput(true); //sets showOtherInput to true
         } else {
