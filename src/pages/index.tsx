@@ -5,6 +5,7 @@ import LetterBrowser from "@/components/letter_browser";
 import LetterEditor from "@/components/letter_editor";
 
 export default function Home() {
+
   const [view, setView] = useState('browse');
   const [hasWrittenLetter, setHasWrittenLetter] = useState(false);
 

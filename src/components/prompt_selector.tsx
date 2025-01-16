@@ -6,6 +6,17 @@ export interface PromptSelectorProps {
 
 export default function PromptSelector({ onSelectPrompt }: PromptSelectorProps) {
 
+    const defaultPrompts = [
+    "you're feeling blue",
+    "you feel lost",
+    "you’ve messed up",
+    "you need a laugh",
+    "you’re exhausted",
+    "you’re pissed off",
+    "you feel lonely",
+    "you're stressed out"
+    ];
+
     const [showOtherInput, setShowOtherInput] = useState(false);
     const [selectedPrompt, setSelectedPrompt] = useState(''); // starts as ''
     
@@ -34,10 +45,9 @@ export default function PromptSelector({ onSelectPrompt }: PromptSelectorProps) 
             "open when..." <br />
             <select value={selectedPrompt} onChange={handleSelectChange} required >
                 <option value="" disabled>select a prompt</option>
-                <option value="you're feeling blue">you're feeling blue</option>
-                <option value="you feel lost">you feel lost</option>
-                <option value="you've messed up">you've messed up</option>
-                <option value="other">other</option>
+                {defaultPrompts.map((prompt, index) => (
+                    <option key={index} value={prompt}>{prompt}</option>
+                ))}
             </select>
         </label>
         <br />
