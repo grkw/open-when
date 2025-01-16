@@ -3,20 +3,17 @@ import { supabase } from '@/utils/supabase/client';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
-        const { prompt, author_name, author_location, letter_body } = req.body;
-        const created_date = new Date().toISOString();
-
+        const { opener_name, opener_location } = req.body;
+        const opened_date = new Date().toISOString();
         try {
-            const { data, error } = await supabase.from('letters').insert([
+            const { data, error } = await supabase.from('letters').update([
                 {
-                    prompt,
-                    author_name,
-                    author_location,
-                    created_date,
-                    letter_body,
-                    is_opened: false,
+                    opener_name: opener_name,
+                    opener_location: opener_location,
+                    opened_date: opened_date,
+                    is_opened: true,
                 },
-            ]);
+            ]).eq('id', 4);
 
             if (error) {
                 console.error('Error inserting data:', error);
