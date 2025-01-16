@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-import CardView from "./view_letter";
-// import GetNumLettersView from "./get_num_letters";
 import LetterOpener from "@/components/letter_opener";
 import LetterBrowser from "@/components/letter_browser";
 import LetterEditor from "@/components/letter_editor";
@@ -24,8 +22,6 @@ export default function Home() {
           <LetterOpener hasWrittenLetter={hasWrittenLetter} setHasWrittenLetter={setHasWrittenLetter}  setView={setView}/>
           </div>)}
       </div>
-      {/* <CardView></CardView> */}
-      {/* <GetNumLettersView></GetNumLettersView> */}
     </div>
   );
 }

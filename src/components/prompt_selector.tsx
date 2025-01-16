@@ -7,6 +7,7 @@ export interface PromptSelectorProps {
 export default function PromptSelector({ onSelectPrompt }: PromptSelectorProps) {
 
     const [showOtherInput, setShowOtherInput] = useState(false);
+    const [selectedPrompt, setSelectedPrompt] = useState(''); // starts as ''
     
     // TS interface to type the event object for the handleSelectChange function
     interface SelectChangeEvent {
@@ -16,10 +17,12 @@ export default function PromptSelector({ onSelectPrompt }: PromptSelectorProps) 
     }
 
     const handleSelectChange = (event: SelectChangeEvent) => {
+        const value = event.target.value;
+        setSelectedPrompt(value);
         if (onSelectPrompt) {
-            onSelectPrompt(event.target.value);
+            onSelectPrompt(value);
         }
-        if (event.target.value === 'other') {
+        if (value === 'other') {
             setShowOtherInput(true); //sets showOtherInput to true
         } else {
             setShowOtherInput(false); //sets showOtherInput to false
@@ -28,8 +31,9 @@ export default function PromptSelector({ onSelectPrompt }: PromptSelectorProps) 
 
     return (<div>
         <label>
-            select a prompt: "open when..." <br />
-            <select onChange={handleSelectChange} required >
+            "open when..." <br />
+            <select value={selectedPrompt} onChange={handleSelectChange} required >
+                <option value="" disabled>select a prompt</option>
                 <option value="you're feeling blue">you're feeling blue</option>
                 <option value="you feel lost">you feel lost</option>
                 <option value="you've messed up">you've messed up</option>

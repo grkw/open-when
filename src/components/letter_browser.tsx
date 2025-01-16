@@ -13,6 +13,8 @@ export interface LetterBrowserProps {
 export default function LetterBrowser({ setView }: LetterBrowserProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [data, setData] = useState<LetterProps[] | null>(null);
+    const [selectedPrompt, setSelectedPrompt] = useState('');
+    const [filteredData, setFilteredData] = useState<LetterProps[] | null>(null);
 
     useEffect(() => { // The useEffect hook is used to perform a side effect (fetching data from Supabase) after the component mounts.
         supabase.from("letters").select().eq('is_opened','true').then((response) => {
@@ -26,14 +28,22 @@ export default function LetterBrowser({ setView }: LetterBrowserProps) {
         });
     }, []) // Empty dependency array means this effect runs once after the initial render
 
+    useEffect(() => {
+        if (data) {
+            const filtered = data.filter(letter => letter.prompt === selectedPrompt);
+            setFilteredData(filtered);
+            setCurrentIndex(0);
+        }
+    }, [selectedPrompt, data]) // effect will only activate if the values in the list change
+
     const handleNext = () => {
-        if (data && currentIndex < data.length - 1) {
+        if (filteredData && currentIndex < filteredData.length - 1) {
             setCurrentIndex(currentIndex + 1);
         }
     };
 
     const handlePrev = () => {
-        if (data && currentIndex > 0) {
+        if (filteredData && currentIndex > 0) {
             setCurrentIndex(currentIndex - 1);
         }
     }
@@ -43,11 +53,11 @@ export default function LetterBrowser({ setView }: LetterBrowserProps) {
             <h2>browse open letters</h2>
             <p>we currently have # of "you feel sad," # of "you need a laugh," ...</p>
             <p>select a prompt and then browse within that category.</p>
-            <PromptSelector />
-            {data && data.length > 0 && (
-                <Letter {...data[currentIndex]} />)}
+            <PromptSelector onSelectPrompt={setSelectedPrompt}/>
+            {filteredData && filteredData.length > 0 && (
+                <Letter {...filteredData[currentIndex]} />)}
             <button onClick={handlePrev} disabled={currentIndex === 0}>prev</button>
-            <button onClick={handleNext} disabled={!data || currentIndex === data.length - 1}>next</button>
+            <button onClick={handleNext} disabled={!filteredData || currentIndex === filteredData.length - 1}>next</button>
 
             <br />
             <br />
@@ -57,6 +67,3 @@ export default function LetterBrowser({ setView }: LetterBrowserProps) {
         </div>
     );
 }
-// {data && data.map((letter, index) => (
-//     <Letter key={index} {...letter} />
-// ))}

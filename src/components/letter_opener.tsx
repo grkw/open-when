@@ -46,35 +46,6 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
           })
     }
 
-    // const saveLetter = async () => {
-    //     const letterData = {
-    //         // letter_id: letterId, // Include letter_id in the request body
-    //         opener_name: openerName,
-    //         opener_location: openerLocation,
-    //     }
-
-    //     try {
-    //         const response = await fetch("/api/open_letter", {
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //             body: JSON.stringify(letterData),
-    //         });
-
-    //         if (!response.ok) {
-    //             const errorData = await response.json();
-    //             console.error('Error updating data:', errorData);
-    //             return;
-    //         }
-
-    //         const result = await response.json();
-    //         console.log('Data updated:', result.data);
-    //     } catch (error) {
-    //         console.error('Unexpected error:', error);
-    //     }
-    // }
-
     return (
         <div>
             <h2>open a new letter</h2>
