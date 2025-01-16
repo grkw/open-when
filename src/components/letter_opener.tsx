@@ -1,25 +1,35 @@
 import PromptSelector from "./prompt_selector";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Envelope from "@/components/envelope";
+import { LetterProps } from "@/components/letter";
 
 export interface LetterOpenerProps {
     hasWrittenLetter: boolean
     setHasWrittenLetter: (value: boolean) => void;
     setView: (value: string) => void;
+    unopenedLetters: LetterProps[] | null;
 }
 
 // Similar to LetterBrowser but:
 // 1. we allow the user to insert their info in the "read" field in the letter
 // 2. and we only let them open one letter.
-export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, setView }: LetterOpenerProps) {
+export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, setView, unopenedLetters }: LetterOpenerProps) {
 
     const [selectedPrompt, setSelectedPrompt] = useState<string>('');
     const [openerName, setOpenerName] = useState<string>('');
+    const [filteredData, setFilteredData] = useState<LetterProps[] | null>(null);
     const [openerLocation, setOpenerLocation] = useState<string>('');
 
     const handleOpenLetter = () => {
         setHasWrittenLetter(false);
     }
+
+    useEffect(() => {
+        if (unopenedLetters) {
+            const filtered = unopenedLetters.filter(letter => letter.prompt === selectedPrompt);
+            setFilteredData(filtered);
+        }
+    }, [selectedPrompt, unopenedLetters]) // effect will only activate if the values in the list change
 
     const saveLetter = () => {
         const letterData = {

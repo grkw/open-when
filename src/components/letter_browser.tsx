@@ -7,34 +7,23 @@ import Envelope from './envelope';
 
 export interface LetterBrowserProps {
     setView: (value: string) => void;
+    openedLetters: LetterProps[] | null;
 }
 
 // TODO: User can click through all the opened letters and then they get to the unopened letters (if they keep searching, then they'll have incentive): "oop, this is a new letter! if you want to open it, you have some options: (write a letter) or (use a letter credit)"
-export default function LetterBrowser({ setView }: LetterBrowserProps) {
+export default function LetterBrowser({ setView, openedLetters }: LetterBrowserProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [data, setData] = useState<LetterProps[] | null>(null);
+    // const [data, setData] = useState<LetterProps[] | null>(null);
     const [selectedPrompt, setSelectedPrompt] = useState('');
     const [filteredData, setFilteredData] = useState<LetterProps[] | null>(null);
 
-    useEffect(() => { // The useEffect hook is used to perform a side effect (fetching data from Supabase) after the component mounts.
-        supabase.from("letters").select().eq('is_opened','true').then((response) => {
-            if (response.error) {
-                console.error(response.error);
-                setData(null);
-            } else {
-                console.log(response.data);
-                setData(response.data);
-            }
-        });
-    }, []) // Empty dependency array means this effect runs once after the initial render
-
     useEffect(() => {
-        if (data) {
-            const filtered = data.filter(letter => letter.prompt === selectedPrompt);
+        if (openedLetters) {
+            const filtered = openedLetters.filter(letter => letter.prompt === selectedPrompt);
             setFilteredData(filtered);
             setCurrentIndex(0);
         }
-    }, [selectedPrompt, data]) // effect will only activate if the values in the list change
+    }, [selectedPrompt, openedLetters]) // effect will only activate if the values in the list change
 
     const handleNext = () => {
         if (filteredData && currentIndex < filteredData.length - 1) {
