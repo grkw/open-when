@@ -43,11 +43,15 @@ export default function LetterBrowser({ setView, openedLetters }: LetterBrowserP
             <p>we currently have # of "you feel sad," # of "you need a laugh," ...</p>
             <p>select a prompt and then browse within that category.</p>
             <PromptSelector onSelectPrompt={setSelectedPrompt}/>
-            {filteredData && filteredData.length > 0 && (
-                <Letter {...filteredData[currentIndex]} />)}
-            <button onClick={handlePrev} disabled={currentIndex === 0}>prev</button>
-            <button onClick={handleNext} disabled={!filteredData || currentIndex === filteredData.length - 1}>next</button>
-
+            {filteredData && filteredData.length > 0 ? (
+                <>
+                <Letter {...filteredData[currentIndex]} />
+                <button onClick={handlePrev} disabled={currentIndex === 0}>prev</button>
+                <button onClick={handleNext} disabled={!filteredData || currentIndex === filteredData.length - 1}>next</button>
+                </>
+            ) : (
+            <p>no available open letters for this prompt</p>
+        )}
             <br />
             <br />
             <p>what's next?</p>

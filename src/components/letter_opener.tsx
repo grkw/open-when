@@ -2,6 +2,7 @@ import PromptSelector from "./prompt_selector";
 import { useState, useEffect } from 'react';
 import Envelope from "@/components/envelope";
 import { LetterProps } from "@/components/letter";
+import Letter from "@/components/letter";
 
 export interface LetterOpenerProps {
     hasWrittenLetter: boolean
@@ -19,9 +20,21 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
     const [openerName, setOpenerName] = useState<string>('');
     const [filteredData, setFilteredData] = useState<LetterProps[] | null>(null);
     const [openerLocation, setOpenerLocation] = useState<string>('');
+    const [openedID, setOpenedID] = useState(0);
 
     const handleOpenLetter = () => {
         setHasWrittenLetter(false);
+        if (filteredData && filteredData.length > 0) {
+            console.log("filteredData");
+            console.log(filteredData);
+            const updatedLetter = { ...filteredData[0], is_opened: true};
+            setOpenedID(updatedLetter.id)
+            setFilteredData([updatedLetter])
+            return <Letter {...updatedLetter} />;
+        } else {
+            console.error('No letters available to open.');
+            return <p>'no letters available to open for this prompt'</p>;
+        }
     }
 
     useEffect(() => {
@@ -35,6 +48,7 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
         const letterData = {
             opener_name: openerName,
             opener_location: openerLocation,
+            id: openedID,
         }
 
         fetch("/api/open_letter", {
@@ -59,14 +73,12 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
     return (
         <div>
             <h2>open a new letter</h2>
-            {hasWrittenLetter ? (
+            {true ? ( // hasWrittenLetter
                 <div>
                     <p>thank you for writing a letter! you can now open a new letter. select the prompt you'd like:</p>
                     <PromptSelector onSelectPrompt={setSelectedPrompt}></PromptSelector>
                     <Envelope prompt={selectedPrompt} />
                     <button onClick={handleOpenLetter}>open!</button>
-
-                    {/* <Letter></Letter> get the first non-open letter in that category*/}
                     <label>
                         read by <input id="authorname" style={{ width: '10em' }} minLength={0} maxLength={25} placeholder='name (ex. "Grace", "ya girl", "kind carrot")' value={openerName} onChange={(e) => setOpenerName(e.target.value)} />
                     </label>
@@ -74,7 +86,6 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
                         in <input id="authorlocation" style={{ width: '10em' }} minLength={0} maxLength={25} placeholder={'where you\'re writing from (ex. "NYC", "under a blanket", "the other side")'} value={openerLocation} onChange={(e) => setOpenerLocation(e.target.value)} />
                     </label>
                     <button onClick={saveLetter}>save letter</button>
-                    {/* Save to db */}
                 </div>
             ) :
                 <div>
@@ -83,6 +94,7 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
                     <button>use a credit</button>
                 </div>
             }
+            <br/>
             <button onClick={() => setView('browse')}>return to browsing</button>
         </div>
     );
