@@ -18,12 +18,13 @@ export interface LetterOpenerProps {
 export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, setView, unopenedLetters, defaultPrompts }: LetterOpenerProps) {
 
     const [selectedPrompt, setSelectedPrompt] = useState<string>('');
-    const [openerName, setOpenerName] = useState<string>('');
     const [filteredData, setFilteredData] = useState<LetterProps[] | null>(null);
+    const [openerName, setOpenerName] = useState<string>('');
     const [openerLocation, setOpenerLocation] = useState<string>('');
     const [openedID, setOpenedID] = useState(0);
     const [openedLetter, setOpenedLetter] = useState<LetterProps | null>(null);
-    const [counts, setCounts] = useState<number[]>(new Array(defaultPrompts.length).fill(0)); // 8 defaults, and 1 for 'other'
+    const [counts, setCounts] = useState<number[]>(new Array(defaultPrompts.length).fill(0));
+    const [saved, setSaved] = useState(false);
 
     const handleOpenLetter = () => {
         setHasWrittenLetter(false);
@@ -36,7 +37,7 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
             setOpenedLetter(updatedLetter);
         } else {
             console.error('No letters available to open.');
-            return <p>'no letters available to open for this prompt'</p>;
+            return <p>no letters available to open for this prompt</p>;
         }
     }
 
@@ -73,6 +74,8 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
             id: openedID,
         }
 
+        setSaved(true);
+
         fetch("/api/open_letter", {
             method: "POST",
             headers: {
@@ -97,23 +100,19 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
             <h2>open a new letter</h2>
             {true ? ( // hasWrittenLetter
                 <div>
-                    <p>thank you for writing a letter! you can now open a new letter. select the prompt you'd like:</p>
+                    <p>thank you for writing a letter! you can now open a new letter. select the prompt you'd like:</p><br/>
                     <PromptSelector onSelectPrompt={setSelectedPrompt} counts={counts} defaultPrompts={defaultPrompts} label='available'></PromptSelector>
                     {openedLetter ? (
                         <div className='letterBody'>
-                        <Letter {...openedLetter} />
+                        <Letter {...openedLetter} setOpenerName={setOpenerName} setOpenerLocation={setOpenerLocation} />
                         </div>
                     ) : (
                         <Envelope prompt={selectedPrompt} />
                     )}
-                    <button onClick={handleOpenLetter}>open!</button>
-                    <label>
-                        read by <input id="authorname" style={{ width: '10em' }} minLength={0} maxLength={25} placeholder='name (ex. "Grace", "ya girl", "kind carrot")' value={openerName} onChange={(e) => setOpenerName(e.target.value)} />
-                    </label>
-                    <label>
-                        in <input id="authorlocation" style={{ width: '10em' }} minLength={0} maxLength={25} placeholder={'where you\'re writing from (ex. "NYC", "under a blanket", "the other side")'} value={openerLocation} onChange={(e) => setOpenerLocation(e.target.value)} />
-                    </label>
-                    <button onClick={saveLetter}>save letter</button>
+                    <br/>
+                    {!openedLetter && <button onClick={handleOpenLetter}>open!</button>}
+                    {openedLetter && <button onClick={saveLetter}>save letter</button>}
+                    {saved && <p>your letter has been saved and can be browsed by the community!</p>}
                 </div>
             ) :
                 <div>

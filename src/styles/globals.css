@@ -43,7 +43,7 @@ input, button, textarea {
 }
 
 .wrapper {
-  background-color: red;
+  /* background-color: red; */
   width: 80vw;
   max-width: 960px;
   min-width: 80px;
@@ -55,4 +55,18 @@ input, button, textarea {
   text-align: center;
   width: 70vw;
   margin: 0px auto;
+}
+
+.letter {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto; /* Three rows with automatic height */
+  color:black;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  
+  background-color: oldlace;
 }

@@ -48,8 +48,7 @@ export default function PromptSelector({ onSelectPrompt, counts, defaultPrompts,
 
         {showOtherInput && (
             <label>
-                please specify <br />
-                <input type="text" placeholder="Enter category" />
+                <input type="text" placeholder="please specify" />
             </label>
         )}</div>
     )

@@ -60,7 +60,7 @@ export default function Home() {
   return (
     <div className="wrapper" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <h1>open when...</h1>
-      <p>welcome! browse open letters. </p>
+      <p>welcome! browse open letters. each letter becomes available for viewing once it has already been opened. </p>
       <div>
         {view === 'browse' && (<div>
           <LetterBrowser setView={setView} openedLetters={openedLetters} defaultPrompts={defaultPrompts} /> 
