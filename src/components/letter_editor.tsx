@@ -7,15 +7,15 @@ import Envelope from "@/components/envelope";
 export interface LetterEditorProps {
     setHasWrittenLetter: (value: boolean) => void;
     setView: (value: string) => void;
+    defaultPrompts: string[];
 }
 
-export default function LetterEditor({ setHasWrittenLetter, setView}: LetterEditorProps) {
+export default function LetterEditor({ setHasWrittenLetter, setView, defaultPrompts}: LetterEditorProps) {
 
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [prompt, setPrompt] = useState('');
     const [authorName, setAuthorName] = useState('');
     const [authorLocation, setAuthorLocation] = useState('');
-    // const [createdDate, setCreatedDate] = useState('');
     const [letterBody, setLetterBody] = useState('');
 
     const handleSubmit = (event: React.FormEvent) => {
@@ -69,7 +69,7 @@ export default function LetterEditor({ setHasWrittenLetter, setView}: LetterEdit
         <form className={ styles.formModule } onSubmit={handleSubmit}>
              <h2>write a letter</h2>
              <div className={ styles.letterBodyEditor}>
-            <PromptSelector onSelectPrompt={setPrompt}></PromptSelector>
+            <PromptSelector onSelectPrompt={setPrompt} defaultPrompts={defaultPrompts}></PromptSelector>
             <br />
             <label>
                 written by <input id="authorname" style={{ width: '10em' }} minLength={0} maxLength={25} placeholder='name (ex. "Grace", "ya girl", "kind carrot")' value={authorName} onChange={(e) => setAuthorName(e.target.value)} />

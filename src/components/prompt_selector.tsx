@@ -2,20 +2,12 @@ import { useState } from 'react';
 
 export interface PromptSelectorProps {
     onSelectPrompt?: (prompt: string) => void; // `?` means optional
+    counts?: number[];
+    label?: string;
+    defaultPrompts: string[];
 }
 
-export default function PromptSelector({ onSelectPrompt }: PromptSelectorProps) {
-
-    const defaultPrompts = [
-    "you're feeling blue",
-    "you feel lost",
-    "you’ve messed up",
-    "you need a laugh",
-    "you’re exhausted",
-    "you’re pissed off",
-    "you feel lonely",
-    "you're stressed out"
-    ];
+export default function PromptSelector({ onSelectPrompt, counts, defaultPrompts, label }: PromptSelectorProps) {
 
     const [showOtherInput, setShowOtherInput] = useState(false);
     const [selectedPrompt, setSelectedPrompt] = useState(''); // starts as ''
@@ -46,7 +38,9 @@ export default function PromptSelector({ onSelectPrompt }: PromptSelectorProps) 
             <select value={selectedPrompt} onChange={handleSelectChange} required >
                 <option value="" disabled>select a prompt</option>
                 {defaultPrompts.map((prompt, index) => (
-                    <option key={index} value={prompt}>{prompt}</option>
+                    <option key={index} value={prompt} disabled={counts && counts[index] === 0}>
+                        {prompt} {counts && `(${counts[index]} ${label})`}
+                        </option>
                 ))}
             </select>
         </label>

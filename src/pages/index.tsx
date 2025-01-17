@@ -7,6 +7,18 @@ import { LetterProps } from "@/components/letter";
 
 export default function Home() {
 
+  const defaultPrompts = [
+    "you're feeling blue",
+    "you feel lost",
+    "you’ve messed up",
+    "you need a laugh",
+    "you’re exhausted",
+    "you’re pissed off",
+    "you feel lonely",
+    "you're stressed out",
+    "other"
+    ];
+
   const [view, setView] = useState('browse');
   const [hasWrittenLetter, setHasWrittenLetter] = useState(false);
   const [openedLetters, setOpenedLetters] = useState<LetterProps[] | null>(null);
@@ -49,12 +61,12 @@ export default function Home() {
       <p>welcome! browse open letters. </p>
       <div>
         {view === 'browse' &&
-          (<LetterBrowser setView={setView} openedLetters={openedLetters}/>)}
+          (<LetterBrowser setView={setView} openedLetters={openedLetters} defaultPrompts={defaultPrompts} />)}
         {view === 'write' && (<div>
-          <LetterEditor setHasWrittenLetter={setHasWrittenLetter} setView={setView} />
+          <LetterEditor setHasWrittenLetter={setHasWrittenLetter} setView={setView} defaultPrompts={defaultPrompts}/>
         </div>)}
         {view === 'open' && (<div>
-          <LetterOpener hasWrittenLetter={hasWrittenLetter} setHasWrittenLetter={setHasWrittenLetter} setView={setView} unopenedLetters={unopenedLetters}/>
+          <LetterOpener hasWrittenLetter={hasWrittenLetter} setHasWrittenLetter={setHasWrittenLetter} setView={setView} unopenedLetters={unopenedLetters} defaultPrompts={defaultPrompts}/>
           </div>)}
       </div>
     </div>

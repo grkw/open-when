@@ -9,25 +9,27 @@ export interface LetterOpenerProps {
     setHasWrittenLetter: (value: boolean) => void;
     setView: (value: string) => void;
     unopenedLetters: LetterProps[] | null;
+    defaultPrompts: string[];
 }
 
 // Similar to LetterBrowser but:
 // 1. we allow the user to insert their info in the "read" field in the letter
 // 2. and we only let them open one letter.
-export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, setView, unopenedLetters }: LetterOpenerProps) {
+export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, setView, unopenedLetters, defaultPrompts }: LetterOpenerProps) {
 
     const [selectedPrompt, setSelectedPrompt] = useState<string>('');
     const [openerName, setOpenerName] = useState<string>('');
     const [filteredData, setFilteredData] = useState<LetterProps[] | null>(null);
     const [openerLocation, setOpenerLocation] = useState<string>('');
     const [openedID, setOpenedID] = useState(0);
+    const [counts, setCounts] = useState<number[]>(new Array(defaultPrompts.length + 1).fill(0)); // 8 defaults, and 1 for 'other'
 
     const handleOpenLetter = () => {
         setHasWrittenLetter(false);
         if (filteredData && filteredData.length > 0) {
             console.log("filteredData");
             console.log(filteredData);
-            const updatedLetter = { ...filteredData[0], is_opened: true};
+            const updatedLetter = { ...filteredData[0], is_opened: true };
             setOpenedID(updatedLetter.id)
             setFilteredData([updatedLetter])
             return <Letter {...updatedLetter} />;
@@ -36,6 +38,21 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
             return <p>'no letters available to open for this prompt'</p>;
         }
     }
+
+    useEffect(() => {
+        if (unopenedLetters) {
+            const promptCounts = new Array(defaultPrompts.length + 1).fill(0);
+            unopenedLetters.forEach(letter => {
+                const index = defaultPrompts.indexOf(letter.prompt);
+                if (index !== -1) {
+                    promptCounts[index]++;
+                } else {
+                    promptCounts[promptCounts.length - 1]++;
+                }
+            });
+            setCounts(promptCounts);
+        }
+    }, [unopenedLetters, defaultPrompts]);
 
     useEffect(() => {
         if (unopenedLetters) {
@@ -54,20 +71,20 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
         fetch("/api/open_letter", {
             method: "POST",
             headers: {
-              "Content-Type": "application/json",
+                "Content-Type": "application/json",
             },
             body: JSON.stringify(letterData),
-          }).then(async (response) => {
+        }).then(async (response) => {
             if (response.ok) {
-              return await response.json()
+                return await response.json()
             }
-          }).then((data) => {
+        }).then((data) => {
             console.log(data)
             // do stuff with response here
-          }).catch((error) => {
+        }).catch((error) => {
             console.error(error)
             // do stuff with error here
-          })
+        })
     }
 
     return (
@@ -76,7 +93,7 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
             {true ? ( // hasWrittenLetter
                 <div>
                     <p>thank you for writing a letter! you can now open a new letter. select the prompt you'd like:</p>
-                    <PromptSelector onSelectPrompt={setSelectedPrompt}></PromptSelector>
+                    <PromptSelector onSelectPrompt={setSelectedPrompt} counts={counts} defaultPrompts={defaultPrompts} label='available'></PromptSelector>
                     <Envelope prompt={selectedPrompt} />
                     <button onClick={handleOpenLetter}>open!</button>
                     <label>
@@ -94,7 +111,7 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
                     <button>use a credit</button>
                 </div>
             }
-            <br/>
+            <br />
             <button onClick={() => setView('browse')}>return to browsing</button>
         </div>
     );
