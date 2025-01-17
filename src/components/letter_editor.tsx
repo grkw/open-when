@@ -68,7 +68,7 @@ export default function LetterEditor({ setHasWrittenLetter, setView, defaultProm
         <div>
         <form className={ styles.formModule } onSubmit={handleSubmit}>
              <h2>write a letter</h2>
-             <div className={ styles.letterBodyEditor}>
+             <div className='letterBody'>
             <PromptSelector onSelectPrompt={setPrompt} defaultPrompts={defaultPrompts}></PromptSelector>
             <br />
             <label>

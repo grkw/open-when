@@ -25,6 +25,7 @@ export default function Letter(props: LetterProps) {
     return (<div className={styles.letter}>
                 <div className={styles.prompt}>{prompt}</div>
                 <div className={styles.author_info}>written by <em>{author_name}</em> in <em>{author_location}</em> on <em>{formatDate(created_date)}</em> and opened by <em>{opener_name}</em> in <em>{opener_location}</em> on <em>{formatDate(opened_date)}</em></div>
+                <br />
                 <div className={styles.letter_body}><em>{letter_body}</em></div>
             </div>);
 } 

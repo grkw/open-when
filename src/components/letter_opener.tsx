@@ -22,7 +22,8 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
     const [filteredData, setFilteredData] = useState<LetterProps[] | null>(null);
     const [openerLocation, setOpenerLocation] = useState<string>('');
     const [openedID, setOpenedID] = useState(0);
-    const [counts, setCounts] = useState<number[]>(new Array(defaultPrompts.length + 1).fill(0)); // 8 defaults, and 1 for 'other'
+    const [openedLetter, setOpenedLetter] = useState<LetterProps | null>(null);
+    const [counts, setCounts] = useState<number[]>(new Array(defaultPrompts.length).fill(0)); // 8 defaults, and 1 for 'other'
 
     const handleOpenLetter = () => {
         setHasWrittenLetter(false);
@@ -32,7 +33,7 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
             const updatedLetter = { ...filteredData[0], is_opened: true };
             setOpenedID(updatedLetter.id)
             setFilteredData([updatedLetter])
-            return <Letter {...updatedLetter} />;
+            setOpenedLetter(updatedLetter);
         } else {
             console.error('No letters available to open.');
             return <p>'no letters available to open for this prompt'</p>;
@@ -41,15 +42,19 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
 
     useEffect(() => {
         if (unopenedLetters) {
-            const promptCounts = new Array(defaultPrompts.length + 1).fill(0);
+            const promptCounts = new Array(defaultPrompts.length).fill(0);
             unopenedLetters.forEach(letter => {
                 const index = defaultPrompts.indexOf(letter.prompt);
                 if (index !== -1) {
                     promptCounts[index]++;
+                    console.log(letter.prompt);
                 } else {
                     promptCounts[promptCounts.length - 1]++;
+                    console.log('other: ', letter.prompt);
                 }
             });
+            console.log("promptCounts");
+            console.log(promptCounts);
             setCounts(promptCounts);
         }
     }, [unopenedLetters, defaultPrompts]);
@@ -94,7 +99,13 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
                 <div>
                     <p>thank you for writing a letter! you can now open a new letter. select the prompt you'd like:</p>
                     <PromptSelector onSelectPrompt={setSelectedPrompt} counts={counts} defaultPrompts={defaultPrompts} label='available'></PromptSelector>
-                    <Envelope prompt={selectedPrompt} />
+                    {openedLetter ? (
+                        <div className='letterBody'>
+                        <Letter {...openedLetter} />
+                        </div>
+                    ) : (
+                        <Envelope prompt={selectedPrompt} />
+                    )}
                     <button onClick={handleOpenLetter}>open!</button>
                     <label>
                         read by <input id="authorname" style={{ width: '10em' }} minLength={0} maxLength={25} placeholder='name (ex. "Grace", "ya girl", "kind carrot")' value={openerName} onChange={(e) => setOpenerName(e.target.value)} />

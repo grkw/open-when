@@ -41,3 +41,18 @@ input, button, textarea {
   outline: none;
   font-weight: normal;
 }
+
+.wrapper {
+  background-color: red;
+  width: 80vw;
+  max-width: 960px;
+  min-width: 80px;
+  margin: 0px auto;
+}
+
+.letterBody {
+  background-color: oldlace;
+  text-align: center;
+  width: 70vw;
+  margin: 0px auto;
+}

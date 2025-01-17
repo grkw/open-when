@@ -10,12 +10,14 @@ export default function Home() {
   const defaultPrompts = [
     "you're feeling blue",
     "you feel lost",
-    "you’ve messed up",
+    "you've messed up",
     "you need a laugh",
-    "you’re exhausted",
-    "you’re pissed off",
+    "you're exhausted",
+    "you're pissed off",
     "you feel lonely",
     "you're stressed out",
+    "you're feeling insecure",
+    "you're bored",
     "other"
   ];
 
@@ -56,7 +58,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div className="wrapper" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <h1>open when...</h1>
       <p>welcome! browse open letters. </p>
       <div>
