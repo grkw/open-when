@@ -59,6 +59,7 @@ export default function LetterBrowser({ setView, openedLetters, defaultPrompts }
             {filteredData && filteredData.length > 0 &&
                 <>
                 <Letter {...filteredData[currentIndex]} />
+                <br />
                 <button onClick={handlePrev} disabled={currentIndex === 0}>prev</button>
                 <button onClick={handleNext} disabled={!filteredData || currentIndex === filteredData.length - 1}>next</button>
                 </>}

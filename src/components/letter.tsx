@@ -1,5 +1,4 @@
 import styles from '@/components/letter.module.css';
-import Envelope from './envelope';
 
 export interface LetterProps {
     id: number,
@@ -16,11 +15,16 @@ export interface LetterProps {
 
 export default function Letter(props: LetterProps) {
 
-    const { prompt, author_name, author_location, created_date, opener_name, opener_location, opened_date, letter_body, is_opened } = props;
+    const { prompt, author_name, author_location, created_date, opener_name, opener_location, opened_date, letter_body } = props;
+
+    const formatDate = (dateString: string) => {
+        const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    };
 
     return (<div className={styles.letter}>
                 <div className={styles.prompt}>{prompt}</div>
-                <div className={styles.author_info}>written by {author_name} in {author_location} at {created_date} and opened by {opener_name} in {opener_location} at {opened_date}</div>
-                <div className={styles.letter_body}>{letter_body}</div>
+                <div className={styles.author_info}>written by <em>{author_name}</em> in <em>{author_location}</em> on <em>{formatDate(created_date)}</em> and opened by <em>{opener_name}</em> in <em>{opener_location}</em> on <em>{formatDate(opened_date)}</em></div>
+                <div className={styles.letter_body}><em>{letter_body}</em></div>
             </div>);
 } 

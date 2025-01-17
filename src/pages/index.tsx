@@ -17,7 +17,7 @@ export default function Home() {
     "you feel lonely",
     "you're stressed out",
     "other"
-    ];
+  ];
 
   const [view, setView] = useState('browse');
   const [hasWrittenLetter, setHasWrittenLetter] = useState(false);
@@ -60,14 +60,15 @@ export default function Home() {
       <h1>open when...</h1>
       <p>welcome! browse open letters. </p>
       <div>
-        {view === 'browse' &&
-          (<LetterBrowser setView={setView} openedLetters={openedLetters} defaultPrompts={defaultPrompts} />)}
+        {view === 'browse' && (<div>
+          <LetterBrowser setView={setView} openedLetters={openedLetters} defaultPrompts={defaultPrompts} /> 
+        </div>)}
         {view === 'write' && (<div>
-          <LetterEditor setHasWrittenLetter={setHasWrittenLetter} setView={setView} defaultPrompts={defaultPrompts}/>
+          <LetterEditor setHasWrittenLetter={setHasWrittenLetter} setView={setView} defaultPrompts={defaultPrompts} />
         </div>)}
         {view === 'open' && (<div>
-          <LetterOpener hasWrittenLetter={hasWrittenLetter} setHasWrittenLetter={setHasWrittenLetter} setView={setView} unopenedLetters={unopenedLetters} defaultPrompts={defaultPrompts}/>
-          </div>)}
+          <LetterOpener hasWrittenLetter={hasWrittenLetter} setHasWrittenLetter={setHasWrittenLetter} setView={setView} unopenedLetters={unopenedLetters} defaultPrompts={defaultPrompts} />
+        </div>)}
       </div>
     </div>
   );
