@@ -10,7 +10,6 @@ export default function CardView() {
                 console.error(response.error);
                 setData(null);
             } else {
-                console.log(response.data);
                 setData(response.data);
             }
         });

@@ -10,12 +10,14 @@ export interface LetterOpenerProps {
     setView: (value: string) => void;
     unopenedLetters: LetterProps[] | null;
     defaultPrompts: string[];
+    numCredits: number,
+    setNumCredits: (value: number) => void;
 }
 
 // Similar to LetterBrowser but:
 // 1. we allow the user to insert their info in the "read" field in the letter
 // 2. and we only let them open one letter.
-export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, setView, unopenedLetters, defaultPrompts }: LetterOpenerProps) {
+export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, setView, unopenedLetters, defaultPrompts, numCredits, setNumCredits}: LetterOpenerProps) {
 
     const [selectedPrompt, setSelectedPrompt] = useState<string>('');
     const [filteredData, setFilteredData] = useState<LetterProps[] | null>(null);
@@ -29,8 +31,6 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
     const handleOpenLetter = () => {
         setHasWrittenLetter(false);
         if (filteredData && filteredData.length > 0) {
-            console.log("filteredData");
-            console.log(filteredData);
             const updatedLetter = { ...filteredData[0], is_opened: true };
             setOpenedID(updatedLetter.id)
             setFilteredData([updatedLetter])
@@ -41,6 +41,40 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
         }
     }
 
+    const handleCreditClick = () => {
+
+        setHasWrittenLetter(true);
+
+        const updatedCredits: number = numCredits - 1;
+        setNumCredits(updatedCredits);
+        console.log("numCredits", updatedCredits);
+
+        interface UpdateCreditResponse {
+        success: boolean;
+        message: string;
+        }
+
+        fetch("/api/update_credit", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ num_credits: updatedCredits }),
+        }).then(async (response: Response): Promise<UpdateCreditResponse> => {
+        if (response.ok) {
+            return await response.json();
+        }
+        throw new Error('Network response was not ok.');
+        }).then((data: UpdateCreditResponse) => {
+        console.log("updateCreditResponse");
+        console.log(data);
+        // do stuff with response here
+        }).catch((error: Error) => {
+        console.error(error);
+        // do stuff with error here
+        });
+    }
+
     useEffect(() => {
         if (unopenedLetters) {
             const promptCounts = new Array(defaultPrompts.length).fill(0);
@@ -48,14 +82,10 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
                 const index = defaultPrompts.indexOf(letter.prompt);
                 if (index !== -1) {
                     promptCounts[index]++;
-                    console.log(letter.prompt);
                 } else {
                     promptCounts[promptCounts.length - 1]++;
-                    console.log('other: ', letter.prompt);
-                }
+                 }
             });
-            console.log("promptCounts");
-            console.log(promptCounts);
             setCounts(promptCounts);
         }
     }, [unopenedLetters, defaultPrompts]);
@@ -87,10 +117,8 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
                 return await response.json()
             }
         }).then((data) => {
-            console.log(data)
             // do stuff with response here
         }).catch((error) => {
-            console.error(error)
             // do stuff with error here
         })
     }
@@ -98,7 +126,7 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
     return (
         <div>
             <h2>open a new letter</h2>
-            {true ? ( // hasWrittenLetter
+            {hasWrittenLetter ? ( // hasWrittenLetter
                 <div>
                     <p>thank you for writing a letter! you can now open a new letter. select the prompt you'd like:</p><br/>
                     <PromptSelector onSelectPrompt={setSelectedPrompt} counts={counts} defaultPrompts={defaultPrompts} label='available'></PromptSelector>
@@ -116,9 +144,9 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
                 </div>
             ) :
                 <div>
-                    <p>there are currently # letter credits available. if you're in the letter-writing headspace, please write a letter. if not, go ahead and use a credit in lieu of writing a letter!</p>
+                    <p>there are currently {numCredits} letter credits available. if you're in the letter-writing headspace, please write a letter. if not, go ahead and use a credit in lieu of writing a letter!</p>
                     <button onClick={() => setView('write')}>write a letter</button>
-                    <button>use a credit</button>
+                    <button onClick={handleCreditClick} disabled={numCredits === 0}>use a credit</button>
                 </div>
             }
             <br />

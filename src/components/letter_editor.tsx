@@ -8,9 +8,11 @@ export interface LetterEditorProps {
     setHasWrittenLetter: (value: boolean) => void;
     setView: (value: string) => void;
     defaultPrompts: string[];
+    numCredits: number,
+    setNumCredits: (value: number) => void;
 }
 
-export default function LetterEditor({ setHasWrittenLetter, setView, defaultPrompts }: LetterEditorProps) {
+export default function LetterEditor({ setHasWrittenLetter, setView, defaultPrompts, numCredits, setNumCredits}: LetterEditorProps) {
 
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [prompt, setPrompt] = useState('');
@@ -22,6 +24,27 @@ export default function LetterEditor({ setHasWrittenLetter, setView, defaultProm
         event.preventDefault();
         setHasWrittenLetter(true);
         setIsSubmitted(true);
+
+        const updatedCredits = numCredits + 1;
+        setNumCredits(updatedCredits);
+
+        fetch("/api/update_credit", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedCredits),
+        }).then(async (response) => {
+            if (response.ok) {
+                return await response.json()
+            }
+        }).then((data) => {
+            console.log(data)
+            // do stuff with response here
+        }).catch((error) => {
+            console.error(error)
+            // do stuff with error here
+        })
 
         const letterData = {
             prompt,
@@ -41,22 +64,19 @@ export default function LetterEditor({ setHasWrittenLetter, setView, defaultProm
                 return await response.json()
             }
         }).then((data) => {
-            console.log(data)
             // do stuff with response here
         }).catch((error) => {
-            console.error(error)
             // do stuff with error here
         })
 
     };
-
 
     if (isSubmitted) {
         return (
             <div>
                 <Envelope prompt={prompt} />
                 <p>your letter has been submitted.</p>
-                <p>there are now # of community letter credits!</p>
+                <p>there are now {numCredits} of community letter credits!</p>
                 <br/>
                 <button onClick={() => setIsSubmitted(false)}>write another letter</button>&nbsp;
                 <button onClick={() => setView('open')}>open a new letter</button>

@@ -25,6 +25,7 @@ export default function Home() {
   const [hasWrittenLetter, setHasWrittenLetter] = useState(false);
   const [openedLetters, setOpenedLetters] = useState<LetterProps[] | null>(null);
   const [unopenedLetters, setUnopenedLetters] = useState<LetterProps[] | null>(null);
+  const [numCredits, setNumCredits] = useState(0);
 
   useEffect(() => {
     const fetchLetters = async () => {
@@ -57,19 +58,37 @@ export default function Home() {
     fetchLetters();
   }, []);
 
+  useEffect(() => {
+    const fetchCredits = async () => {
+      try {
+        const { data, error } = await supabase.from("credits").select().eq('id', 1);
+        if (error) {
+          console.error('Error fetching credits:', error);
+        } else if (data) {
+          setNumCredits(data[0]?.num_credits || 0);
+          console.log('credits', data[0]?.num_credits);
+        }
+      } catch (error) {
+        console.error('Unexpected error:', error);
+      }
+    };
+
+    fetchCredits();
+  }, []); // Ensure the dependency array is present
+
   return (
     <div className="wrapper" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <h1>open when...</h1>
-      <p>welcome! browse open letters. each letter becomes available for viewing once it has already been opened. </p>
+      <p>welcome! each letter becomes available for everyone to see once it has already been opened. browse open letters. </p>
       <div>
         {view === 'browse' && (<div>
           <LetterBrowser setView={setView} openedLetters={openedLetters} defaultPrompts={defaultPrompts} /> 
         </div>)}
         {view === 'write' && (<div>
-          <LetterEditor setHasWrittenLetter={setHasWrittenLetter} setView={setView} defaultPrompts={defaultPrompts} />
+          <LetterEditor setHasWrittenLetter={setHasWrittenLetter} setView={setView} defaultPrompts={defaultPrompts} numCredits={numCredits} setNumCredits={setNumCredits}/>
         </div>)}
         {view === 'open' && (<div>
-          <LetterOpener hasWrittenLetter={hasWrittenLetter} setHasWrittenLetter={setHasWrittenLetter} setView={setView} unopenedLetters={unopenedLetters} defaultPrompts={defaultPrompts} />
+          <LetterOpener hasWrittenLetter={hasWrittenLetter} setHasWrittenLetter={setHasWrittenLetter} setView={setView} unopenedLetters={unopenedLetters} defaultPrompts={defaultPrompts} numCredits={numCredits} setNumCredits={setNumCredits}/>
         </div>)}
       </div>
     </div>
