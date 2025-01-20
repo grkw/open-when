@@ -3,12 +3,12 @@ import { supabase } from '@/utils/supabase/client';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
-        const { newValue } = req.body;
+        const { num_credits } = req.body;
 
         try {
             const { data, error } = await supabase.from('credits').update(
                 {
-                    num_credits: newValue
+                    num_credits: num_credits
                 },
             ).eq('id', 1);
 
@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 console.error('Error inserting data:', error);
                 return res.status(500).json({ error: error.message });
             }
-
+            console.log("successfully updated credits", num_credits);
             return res.status(200).json({ data });
         } catch (error) {
             console.error('Unexpected error:', error);

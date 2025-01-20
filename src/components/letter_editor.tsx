@@ -33,7 +33,7 @@ export default function LetterEditor({ setHasWrittenLetter, setView, defaultProm
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(updatedCredits),
+            body: JSON.stringify({num_credits: updatedCredits}),
         }).then(async (response) => {
             if (response.ok) {
                 return await response.json()

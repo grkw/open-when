@@ -2,16 +2,17 @@ import { useState } from 'react';
 
 export interface PromptSelectorProps {
     onSelectPrompt?: (prompt: string) => void; // `?` means optional
-    counts?: number[];
+    unopenedCounts?: number[];
+    openedCounts?: number[];
     label?: string;
     defaultPrompts: string[];
 }
 
-export default function PromptSelector({ onSelectPrompt, counts, defaultPrompts, label }: PromptSelectorProps) {
+export default function PromptSelector({ onSelectPrompt, unopenedCounts, openedCounts, defaultPrompts, label }: PromptSelectorProps) {
 
     const [showOtherInput, setShowOtherInput] = useState(false);
     const [selectedPrompt, setSelectedPrompt] = useState(''); // starts as ''
-    
+    const [otherPrompt, setOtherPrompt] = useState(''); 
     // TS interface to type the event object for the handleSelectChange function
     interface SelectChangeEvent {
         target: { // target element that triggered the event
@@ -32,15 +33,24 @@ export default function PromptSelector({ onSelectPrompt, counts, defaultPrompts,
         }
     };
 
+    const handleOtherChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        setOtherPrompt(value);
+
+        if (onSelectPrompt) {
+            onSelectPrompt(value);
+        }
+    };
+
     return (<div>
         <label>
             "open when..." <br />
             <select value={selectedPrompt} onChange={handleSelectChange} required >
                 <option value="" disabled>select a prompt</option>
                 {defaultPrompts.map((prompt, index) => (
-                    <option key={index} value={prompt} disabled={counts && counts[index] === 0}>
-                        {prompt} {counts && `(${counts[index]} ${label})`}
-                        </option>
+                    <option key={index} value={prompt} disabled={(openedCounts && openedCounts[index] === 0) && (unopenedCounts && unopenedCounts[index] === 0)}>
+                            {prompt} {openedCounts && `(${openedCounts[index]} opened${unopenedCounts && unopenedCounts[index] ? `, ${unopenedCounts[index]} unopened` : ''})`}                        
+                    </option>
                 ))}
             </select>
         </label>
@@ -48,7 +58,7 @@ export default function PromptSelector({ onSelectPrompt, counts, defaultPrompts,
 
         {showOtherInput && (
             <label>
-                <input type="text" placeholder="please specify" />
+                <input type="text" placeholder="please specify" value={otherPrompt} onChange={handleOtherChange}/>
             </label>
         )}</div>
     )

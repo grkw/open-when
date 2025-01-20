@@ -12,12 +12,13 @@ export interface LetterOpenerProps {
     defaultPrompts: string[];
     numCredits: number,
     setNumCredits: (value: number) => void;
+    unopenedCounts: number[];
 }
 
 // Similar to LetterBrowser but:
 // 1. we allow the user to insert their info in the "read" field in the letter
 // 2. and we only let them open one letter.
-export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, setView, unopenedLetters, defaultPrompts, numCredits, setNumCredits}: LetterOpenerProps) {
+export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, setView, unopenedLetters, defaultPrompts, numCredits, setNumCredits, unopenedCounts}: LetterOpenerProps) {
 
     const [selectedPrompt, setSelectedPrompt] = useState<string>('');
     const [filteredData, setFilteredData] = useState<LetterProps[] | null>(null);
@@ -25,7 +26,7 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
     const [openerLocation, setOpenerLocation] = useState<string>('');
     const [openedID, setOpenedID] = useState(0);
     const [openedLetter, setOpenedLetter] = useState<LetterProps | null>(null);
-    const [counts, setCounts] = useState<number[]>(new Array(defaultPrompts.length).fill(0));
+    // const [counts, setCounts] = useState<number[]>(new Array(defaultPrompts.length).fill(0));
     const [saved, setSaved] = useState(false);
 
     const handleOpenLetter = () => {
@@ -75,20 +76,20 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
         });
     }
 
-    useEffect(() => {
-        if (unopenedLetters) {
-            const promptCounts = new Array(defaultPrompts.length).fill(0);
-            unopenedLetters.forEach(letter => {
-                const index = defaultPrompts.indexOf(letter.prompt);
-                if (index !== -1) {
-                    promptCounts[index]++;
-                } else {
-                    promptCounts[promptCounts.length - 1]++;
-                 }
-            });
-            setCounts(promptCounts);
-        }
-    }, [unopenedLetters, defaultPrompts]);
+    // useEffect(() => {
+    //     if (unopenedLetters) {
+    //         const promptCounts = new Array(defaultPrompts.length).fill(0);
+    //         unopenedLetters.forEach(letter => {
+    //             const index = defaultPrompts.indexOf(letter.prompt);
+    //             if (index !== -1) {
+    //                 promptCounts[index]++;
+    //             } else {
+    //                 promptCounts[promptCounts.length - 1]++;
+    //              }
+    //         });
+    //         setCounts(promptCounts);
+    //     }
+    // }, [unopenedLetters, defaultPrompts]);
 
     useEffect(() => {
         if (unopenedLetters) {
@@ -140,7 +141,7 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
             {hasWrittenLetter ? ( // hasWrittenLetter
                 <div>
                     <p>thank you for writing a letter! you can now open a new letter. select the prompt you'd like:</p><br/>
-                    <PromptSelector onSelectPrompt={setSelectedPrompt} counts={counts} defaultPrompts={defaultPrompts} label='available'></PromptSelector>
+                    <PromptSelector onSelectPrompt={setSelectedPrompt} unopenedCounts={unopenedCounts} defaultPrompts={defaultPrompts} label='available'></PromptSelector>
                     <br />
                     {openedLetter ? (
                         <Letter {...openedLetter} setOpenerName={setOpenerName} setOpenerLocation={setOpenerLocation} />
