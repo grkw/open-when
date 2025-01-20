@@ -1,5 +1,3 @@
-import styles from '@/components/letter.module.css';
-import { useState } from 'react';
 
 export interface LetterProps {
     id: number,
@@ -18,7 +16,7 @@ export interface LetterProps {
 
 export default function Letter(props: LetterProps) {
 
-    const { prompt, author_name, author_location, created_date, opener_name, opener_location, opened_date, letter_body, is_opened, setOpenerName, setOpenerLocation } = props;
+    const { prompt, author_name, author_location, created_date, opener_name, opener_location, opened_date, letter_body, setOpenerName, setOpenerLocation } = props;
 
     const formatDate = (dateString: string) => {
         const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };

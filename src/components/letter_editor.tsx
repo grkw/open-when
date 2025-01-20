@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { supabase } from '@/utils/supabase/client';
+import { useState } from 'react';
 import styles from '@/components/letter_editor.module.css';
 import PromptSelector from './prompt_selector';
 import Envelope from "@/components/envelope";
@@ -63,10 +62,6 @@ export default function LetterEditor({ setHasWrittenLetter, setView, defaultProm
             if (response.ok) {
                 return await response.json()
             }
-        }).then((data) => {
-            // do stuff with response here
-        }).catch((error) => {
-            // do stuff with error here
         })
 
     };

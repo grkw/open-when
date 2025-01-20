@@ -128,10 +128,6 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
             if (response.ok) {
                 return await response.json()
             }
-        }).then((data) => {
-            // do stuff with response here
-        }).catch((error) => {
-            // do stuff with error here
         })
     }
 
@@ -155,7 +151,7 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
                 </div>
             ) :
                 <div>
-                    <p>there are currently {numCredits} letter credits available. if you're in the letter-writing headspace, please write a letter. if not, go ahead and use a credit in lieu of writing a letter!</p>
+                    <p>there are currently {numCredits} letter credits available. if you&apos;re in the letter-writing headspace, please write a letter. if not, go ahead and use a credit in lieu of writing a letter!</p>
                     <br />
                     <button onClick={() => setView('write')}>write a letter</button>&nbsp;
                     <button onClick={handleCreditClick} disabled={numCredits === 0}>use a credit</button>

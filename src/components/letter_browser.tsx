@@ -1,7 +1,6 @@
 import Letter, { LetterProps } from '@/components/letter';
 import PromptSelector from './prompt_selector';
 import { useState, useEffect } from 'react';
-import Envelope from './envelope';
 
 export interface LetterBrowserProps {
     setView: (value: string) => void;
@@ -53,7 +52,7 @@ export default function LetterBrowser({ setView, openedLetters, defaultPrompts, 
             <button className={selectedPrompt === '' || currentIndex === (filteredData && filteredData.length - 1)? 'disabled' : ''} onClick={handleNext} disabled={selectedPrompt === '' || currentIndex === (filteredData && filteredData.length - 1)}>next</button>
             <br />
             <br />
-            <p>what's next?</p>
+            <p>what&apos;s next?</p>
             <button onClick={() => setView('write')}>write a letter</button>&nbsp;
             <button onClick={() => setView('open')}>open a new letter</button>
         </div>

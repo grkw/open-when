@@ -44,7 +44,7 @@ export default function PromptSelector({ onSelectPrompt, unopenedCounts, openedC
 
     return (<div>
         <label>
-            "open when..." <br />
+        &quot;open when...&quot; <br />
             <select value={selectedPrompt} onChange={handleSelectChange} required >
                 <option value="" disabled>select a prompt</option>
                 {defaultPrompts.map((prompt, index) => (
