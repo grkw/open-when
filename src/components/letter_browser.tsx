@@ -53,16 +53,17 @@ export default function LetterBrowser({ setView, openedLetters, defaultPrompts }
 
     return (
         <div>
-            <h2>browse open letters</h2>
+            <h2>browse letters</h2>
             <p>select a prompt and then browse within that category.</p>
             <PromptSelector onSelectPrompt={setSelectedPrompt} defaultPrompts={defaultPrompts} label='available' counts={counts}/>
+            <br />
             {(filteredData && filteredData.length > 0) ? 
                 (<>  
                 <Letter {...filteredData[currentIndex]} />
-                <br />
-                <button onClick={handlePrev} disabled={currentIndex === 0}>prev</button>&nbsp;
-                <button onClick={handleNext} disabled={!filteredData || currentIndex === filteredData.length - 1}>next</button>
-                </>) : (<div className='letter'><div className='letterBody'></div></div>)}
+                </>) : (<div className='letter'></div>)}
+            <br />
+            <button className={selectedPrompt === '' ||  currentIndex === 0 ? 'disabled' : ''} onClick={handlePrev} disabled={selectedPrompt === '' || currentIndex === 0}>prev</button>&nbsp;
+            <button className={selectedPrompt === '' || currentIndex === (filteredData && filteredData.length - 1)? 'disabled' : ''} onClick={handleNext} disabled={selectedPrompt === '' || currentIndex === (filteredData && filteredData.length - 1)}>next</button>
             <br />
             <br />
             <p>what's next?</p>

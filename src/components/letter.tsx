@@ -26,7 +26,7 @@ export default function Letter(props: LetterProps) {
     };
 
     return (<div className='letter'>
-        <div className={styles.prompt}>{prompt}</div>
+        <div>{prompt}</div>
         <div>written by <em>{author_name}</em> from <em>{author_location}</em> on <em>{formatDate(created_date)}</em> </div>
         {setOpenerName && setOpenerLocation ? ( // then we know we've just opened it and wanna save the reader info
             <div>
@@ -42,9 +42,9 @@ export default function Letter(props: LetterProps) {
             </div>
 
         ) : (
-            <div>and opened by <em>{opener_name}</em> in <em>{opener_location}</em> on <em>{formatDate(opened_date)}</em></div>
+            <div>opened by <em>{opener_name}</em> in <em>{opener_location}</em> on <em>{formatDate(opened_date)}</em></div>
         )}
         <br />
-        <div className={styles.letter_body}><em>{letter_body}</em></div>
+        <div className='letter_body'><em>{letter_body}</em></div>
     </div>);
 } 

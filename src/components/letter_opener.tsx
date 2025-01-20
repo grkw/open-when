@@ -29,7 +29,7 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
     const [saved, setSaved] = useState(false);
 
     const handleOpenLetter = () => {
-        setHasWrittenLetter(false);
+        
         if (filteredData && filteredData.length > 0) {
             const updatedLetter = { ...filteredData[0], is_opened: true };
             setOpenedID(updatedLetter.id)
@@ -97,6 +97,17 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
         }
     }, [selectedPrompt, unopenedLetters]) // effect will only activate if the values in the list change
 
+    useEffect(() => {
+        if (saved) {
+            setHasWrittenLetter(false);
+        }
+    }, [saved]);
+
+    useEffect(() => {
+        // Set hasWrittenLetter to false when the component mounts
+        setHasWrittenLetter(false);
+    }, []); // Empty dependency array ensures this runs only once when the component mounts
+
     const saveLetter = () => {
         const letterData = {
             opener_name: openerName,
@@ -130,25 +141,26 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
                 <div>
                     <p>thank you for writing a letter! you can now open a new letter. select the prompt you'd like:</p><br/>
                     <PromptSelector onSelectPrompt={setSelectedPrompt} counts={counts} defaultPrompts={defaultPrompts} label='available'></PromptSelector>
+                    <br />
                     {openedLetter ? (
-                        <div className='letterBody'>
                         <Letter {...openedLetter} setOpenerName={setOpenerName} setOpenerLocation={setOpenerLocation} />
-                        </div>
                     ) : (
                         <Envelope prompt={selectedPrompt} />
                     )}
                     <br/>
                     {!openedLetter && <button onClick={handleOpenLetter}>open!</button>}
                     {openedLetter && <button onClick={saveLetter}>save letter</button>}
-                    {saved && <p>your letter has been saved and can be browsed by the community!</p>}
+                    {saved && <p>your letter has been saved and can now be browsed by the community!</p>}
                 </div>
             ) :
                 <div>
                     <p>there are currently {numCredits} letter credits available. if you're in the letter-writing headspace, please write a letter. if not, go ahead and use a credit in lieu of writing a letter!</p>
-                    <button onClick={() => setView('write')}>write a letter</button>
+                    <br />
+                    <button onClick={() => setView('write')}>write a letter</button>&nbsp;
                     <button onClick={handleCreditClick} disabled={numCredits === 0}>use a credit</button>
                 </div>
             }
+            <br />
             <br />
             <button onClick={() => setView('browse')}>return to browsing</button>
         </div>

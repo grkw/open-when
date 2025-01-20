@@ -77,9 +77,9 @@ export default function Home() {
   }, []); // Ensure the dependency array is present
 
   return (
-    <div className="wrapper" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div className="wrapper">
       <h1>open when...</h1>
-      <p>welcome! each letter becomes available for everyone to see once it has already been opened. browse open letters. </p>
+      <p>welcome! each letter becomes available for everyone to see once it has already been opened.</p>
       <div>
         {view === 'browse' && (<div>
           <LetterBrowser setView={setView} openedLetters={openedLetters} defaultPrompts={defaultPrompts} /> 

@@ -95,7 +95,7 @@ export default function LetterEditor({ setHasWrittenLetter, setView, defaultProm
         <div>
             <form className={styles.formModule} onSubmit={handleSubmit}>
                 <h2>write a letter</h2>
-                <div className='letterBody'>
+                <div className='letter'>
                     <PromptSelector onSelectPrompt={setPrompt} defaultPrompts={defaultPrompts}></PromptSelector>
                     <br />
                     <label>
@@ -109,14 +109,15 @@ export default function LetterEditor({ setHasWrittenLetter, setView, defaultProm
                     </label>
                     <br />
                     <br />
-                    <label>
-                        <textarea style={{ height: '10em', width: '40em' }} minLength={100} maxLength={2000} placeholder="write your letter! (100 to 2000 chars)" required value={letterBody} onChange={(e) => setLetterBody(e.target.value)} />
-                    </label>
                     <br />
+                    <label>
+                        <textarea style={{ height: '14em', width: '40em' }} minLength={100} maxLength={2000} placeholder="write your letter! (100 to 2000 chars)" required value={letterBody} onChange={(e) => setLetterBody(e.target.value)} />
+                    </label>
+                    {/* <br />
                     <label>
                         add an optional image (.png, .jpg, .jpeg) <br />
                         <input type="file" accept=".png, .jpg, .jpeg" />
-                    </label>
+                    </label> */}
                     <br />
                 </div>
                 <br/>
@@ -141,8 +142,10 @@ export default function LetterEditor({ setHasWrittenLetter, setView, defaultProm
                 <button type="reset">reset</button> &nbsp;
                 <button type="submit" className="custom-button-class">
                     submit
-                </button> &nbsp;
-
+                </button> 
+                <br />
+                <br />
+                <br />
                 <button onClick={() => setView('browse')}>return to browsing</button>
 
             </form>
