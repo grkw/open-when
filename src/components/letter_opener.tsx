@@ -140,7 +140,7 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
             <h2>open a new letter</h2>
             {hasWrittenLetter ? ( // hasWrittenLetter
                 <div>
-                    <p>thank you for writing a letter! you can now open a new letter. select the prompt you'd like:</p><br/>
+                    <p></p><br/>
                     <PromptSelector onSelectPrompt={setSelectedPrompt} unopenedCounts={unopenedCounts} defaultPrompts={defaultPrompts} label='available'></PromptSelector>
                     <br />
                     {openedLetter ? (

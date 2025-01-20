@@ -8,7 +8,7 @@ export interface PromptSelectorProps {
     defaultPrompts: string[];
 }
 
-export default function PromptSelector({ onSelectPrompt, unopenedCounts, openedCounts, defaultPrompts, label }: PromptSelectorProps) {
+export default function PromptSelector({ onSelectPrompt, unopenedCounts, openedCounts, defaultPrompts }: PromptSelectorProps) {
 
     const [showOtherInput, setShowOtherInput] = useState(false);
     const [selectedPrompt, setSelectedPrompt] = useState(''); // starts as ''
@@ -48,8 +48,10 @@ export default function PromptSelector({ onSelectPrompt, unopenedCounts, openedC
             <select value={selectedPrompt} onChange={handleSelectChange} required >
                 <option value="" disabled>select a prompt</option>
                 {defaultPrompts.map((prompt, index) => (
-                    <option key={index} value={prompt} disabled={(openedCounts && openedCounts[index] === 0) && (unopenedCounts && unopenedCounts[index] === 0)}>
-                            {prompt} {openedCounts && `(${openedCounts[index]} opened${unopenedCounts && unopenedCounts[index] ? `, ${unopenedCounts[index]} unopened` : ''})`}                        
+                    <option key={index} value={prompt} disabled={((openedCounts && unopenedCounts) && openedCounts[index] === 0) || ((unopenedCounts && !openedCounts) && unopenedCounts[index] === 0)}> 
+                            {prompt} 
+                            {(openedCounts && unopenedCounts) && ` (${openedCounts[index]} opened${`, ${unopenedCounts[index]} unopened`})`}
+                            {(unopenedCounts && !openedCounts) && ` (${unopenedCounts[index]} unopened)`}                        
                     </option>
                 ))}
             </select>
