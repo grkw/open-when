@@ -21,7 +21,7 @@ export default function Home() {
     "other"
   ];
 
-  const [view, setView] = useState('browse');
+  const [view, setView] = useState('instructions');
   const [hasWrittenLetter, setHasWrittenLetter] = useState(false);
   const [openedLetters, setOpenedLetters] = useState<LetterProps[] | null>(null);
   const [unopenedLetters, setUnopenedLetters] = useState<LetterProps[] | null>(null);
@@ -80,53 +80,63 @@ export default function Home() {
 
   useEffect(() => {
     if (unopenedLetters) {
-        const promptCounts = new Array(defaultPrompts.length).fill(0);
-        unopenedLetters.forEach(letter => {
-            const index = defaultPrompts.indexOf(letter.prompt);
-            if (index !== -1) {
-                promptCounts[index]++;
-            } else {
-                promptCounts[promptCounts.length - 1]++;
-             }
-        });
-        setUnopenedCounts(promptCounts);
-        console.log("unopened counts", promptCounts);
+      const promptCounts = new Array(defaultPrompts.length).fill(0);
+      unopenedLetters.forEach(letter => {
+        const index = defaultPrompts.indexOf(letter.prompt);
+        if (index !== -1) {
+          promptCounts[index]++;
+        } else {
+          promptCounts[promptCounts.length - 1]++;
+        }
+      });
+      setUnopenedCounts(promptCounts);
+      console.log("unopened counts", promptCounts);
     }
-}, [unopenedLetters]); //unopenedLetters, 
+  }, [unopenedLetters]); //unopenedLetters, 
 
 
-useEffect(() => {
-  if (openedLetters) {
+  useEffect(() => {
+    if (openedLetters) {
       const promptCounts = new Array(defaultPrompts.length).fill(0);
       openedLetters.forEach(letter => {
-          const index = defaultPrompts.indexOf(letter.prompt);
-          if (index !== -1) {
-              promptCounts[index]++;
-          } else {
-              promptCounts[promptCounts.length - 1]++;
-          }
+        const index = defaultPrompts.indexOf(letter.prompt);
+        if (index !== -1) {
+          promptCounts[index]++;
+        } else {
+          promptCounts[promptCounts.length - 1]++;
+        }
       });
       setOpenedCounts(promptCounts);
       console.log("opened counts", promptCounts);
-  }
-}, [openedLetters]); //openedLetters, 
+    }
+  }, [openedLetters]); //openedLetters, 
 
 
   return (
     <div className="wrapper">
       <h1>open when...</h1>
-      <p>welcome! each letter becomes available for everyone to see once it has already been opened.</p>
-      <div>
-        {view === 'browse' && (<div>
-          <LetterBrowser setView={setView} openedLetters={openedLetters} openedCounts={openedCounts} unopenedCounts={unopenedCounts} defaultPrompts={defaultPrompts} /> 
-        </div>)}
-        {view === 'write' && (<div>
-          <LetterEditor setHasWrittenLetter={setHasWrittenLetter} setView={setView} defaultPrompts={defaultPrompts} numCredits={numCredits} setNumCredits={setNumCredits}/>
-        </div>)}
-        {view === 'open' && (<div>
-          <LetterOpener hasWrittenLetter={hasWrittenLetter} setHasWrittenLetter={setHasWrittenLetter} setView={setView} unopenedLetters={unopenedLetters} unopenedCounts={unopenedCounts} defaultPrompts={defaultPrompts} numCredits={numCredits} setNumCredits={setNumCredits}/>
-        </div>)}
-      </div>
+
+      {view === 'instructions' && <div><p>welcome, internet friend! how are you feeling?</p>
+        <br />
+        <p>this is a community-driven site that allows people to give and receive emotional support via digital letters. we may not know each other, but as fellow human beings, we can still send kindness and well-wishes to each other.</p>
+        <br />
+        <p>if you&apos;re looking for some advice on how to navigate a particular feeling, you can browse letters that have been opened — and if there are unopened letters available, you can open and sign them, making them available for anyone to see!</p>
+        <br />
+        <p>if you&apos;d like to provide emotional support to a fellow internet friend, you can submit your own letter for someone else.</p>
+        <br />
+        <button onClick={() => setView('browse')}>browse letters</button>
+        </div>}
+
+      {view === 'browse' && (
+        <LetterBrowser setView={setView} openedLetters={openedLetters} openedCounts={openedCounts} unopenedCounts={unopenedCounts} defaultPrompts={defaultPrompts} />
+      )}
+      {view === 'write' && (
+        <LetterEditor setHasWrittenLetter={setHasWrittenLetter} setView={setView} defaultPrompts={defaultPrompts} numCredits={numCredits} setNumCredits={setNumCredits} />
+      )}
+      {view === 'open' && (
+        <LetterOpener hasWrittenLetter={hasWrittenLetter} setHasWrittenLetter={setHasWrittenLetter} setView={setView} unopenedLetters={unopenedLetters} unopenedCounts={unopenedCounts} defaultPrompts={defaultPrompts} numCredits={numCredits} setNumCredits={setNumCredits} />
+      )}
+
     </div>
   );
 }
