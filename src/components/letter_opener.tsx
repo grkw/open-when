@@ -26,8 +26,8 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
     const [openerLocation, setOpenerLocation] = useState<string>('');
     const [openedID, setOpenedID] = useState(0);
     const [openedLetter, setOpenedLetter] = useState<LetterProps | null>(null);
-    // const [counts, setCounts] = useState<number[]>(new Array(defaultPrompts.length).fill(0));
     const [saved, setSaved] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     const handleOpenLetter = () => {
         
@@ -76,20 +76,45 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
         });
     }
 
-    // useEffect(() => {
-    //     if (unopenedLetters) {
-    //         const promptCounts = new Array(defaultPrompts.length).fill(0);
-    //         unopenedLetters.forEach(letter => {
-    //             const index = defaultPrompts.indexOf(letter.prompt);
-    //             if (index !== -1) {
-    //                 promptCounts[index]++;
-    //             } else {
-    //                 promptCounts[promptCounts.length - 1]++;
-    //              }
-    //         });
-    //         setCounts(promptCounts);
-    //     }
-    // }, [unopenedLetters, defaultPrompts]);
+    const handleNext = () => {
+        const unopenedCount = unopenedCounts[defaultPrompts.indexOf(selectedPrompt)];
+        if (currentIndex < unopenedCount - 1) {
+            setCurrentIndex(currentIndex + 1);
+        }
+    };
+
+    const handlePrev = () => {
+        if (currentIndex > 0) {
+            setCurrentIndex(currentIndex - 1);
+        }
+    };
+
+    const renderNavigationButtons = () => {
+        let isPrevDisabled = false;
+        let isNextDisabled = false;
+
+        if (selectedPrompt === '') {
+            isPrevDisabled = true;
+            isNextDisabled = true;
+        }
+
+        const unopenedCount = unopenedCounts[defaultPrompts.indexOf(selectedPrompt)];
+
+        if (currentIndex === 0) {
+            isPrevDisabled = true;
+        }
+
+        if (currentIndex >= unopenedCount - 1) {
+            isNextDisabled = true;
+        }
+
+        return (
+            <>
+                <button className={isPrevDisabled ? 'disabled' : ''} onClick={handlePrev} disabled={isPrevDisabled}>prev</button>&nbsp;
+                <button className={isNextDisabled ? 'disabled' : ''} onClick={handleNext} disabled={isNextDisabled}>next</button>
+            </>
+        );
+    };
 
     useEffect(() => {
         if (unopenedLetters) {
@@ -145,6 +170,9 @@ export default function LetterOpener({ hasWrittenLetter, setHasWrittenLetter, se
                         <Envelope prompt={selectedPrompt} />
                     )}
                     <br/>
+                    { renderNavigationButtons() }
+                    <br />
+                    <br />
                     {!openedLetter && <button onClick={handleOpenLetter}>open!</button>}
                     {openedLetter && <button onClick={saveLetter}>save letter</button>}
                     {saved && <p>your letter has been saved and can now be browsed by the community!</p>}
