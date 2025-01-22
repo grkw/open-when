@@ -23,11 +23,13 @@ export default function Home() {
 
   const [view, setView] = useState('instructions');
   const [hasWrittenLetter, setHasWrittenLetter] = useState(false);
-  const [openedLetters, setOpenedLetters] = useState<LetterProps[] | null>(null);
-  const [unopenedLetters, setUnopenedLetters] = useState<LetterProps[] | null>(null);
+  const [openedLetters, setOpenedLetters] = useState<LetterProps[]>([]);
+  const [unopenedLetters, setUnopenedLetters] = useState<LetterProps[]>([]);
   const [unopenedCounts, setUnopenedCounts] = useState<number[]>(new Array(defaultPrompts.length).fill(-1));
   const [openedCounts, setOpenedCounts] = useState<number[]>(new Array(defaultPrompts.length).fill(-1));
   const [numCredits, setNumCredits] = useState(0);
+  // const [openedLetter, setOpenedLetter] = useState<LetterProps[]>([]);
+  // const [openedID, setOpenedID] = useState(0); 
 
   useEffect(() => {
     const fetchLetters = async () => {
@@ -39,7 +41,7 @@ export default function Home() {
 
         if (openedResponse.error) {
           console.error('Error fetching opened letters:', openedResponse.error);
-          setOpenedLetters(null);
+          // setOpenedLetters(null);
         } else {
           console.log('Opened letters:', openedResponse.data);
           setOpenedLetters(openedResponse.data);
@@ -47,7 +49,7 @@ export default function Home() {
 
         if (unopenedResponse.error) {
           console.error('Error fetching unopened letters:', unopenedResponse.error);
-          setUnopenedLetters(null);
+          // setUnopenedLetters(null);
         } else {
           console.log('Unopened letters:', unopenedResponse.data);
           setUnopenedLetters(unopenedResponse.data);
@@ -111,6 +113,8 @@ export default function Home() {
     }
   }, [openedLetters]); //openedLetters, 
 
+  const numUnopenedLetters = unopenedLetters ? unopenedCounts.reduce((partialSum, a) => partialSum + a, 0) : NaN;
+
 
   return (
     <div className="wrapper">
@@ -128,14 +132,14 @@ export default function Home() {
         </div>}
 
       {view === 'browse' && (
-        <LetterBrowser setView={setView} openedLetters={openedLetters} openedCounts={openedCounts} unopenedCounts={unopenedCounts} defaultPrompts={defaultPrompts} />
+        <LetterBrowser view={view} setView={setView} unopenedLetters={unopenedLetters}  openedLetters={openedLetters} openedCounts={openedCounts} unopenedCounts={unopenedCounts} defaultPrompts={defaultPrompts} />
       )}
       {view === 'write' && (
-        <LetterEditor setHasWrittenLetter={setHasWrittenLetter} setView={setView} defaultPrompts={defaultPrompts} numCredits={numCredits} setNumCredits={setNumCredits} />
+        <LetterEditor setHasWrittenLetter={setHasWrittenLetter} setView={setView} defaultPrompts={defaultPrompts} numUnopenedLetters={numUnopenedLetters} />
       )}
-      {view === 'open' && (
-        <LetterOpener hasWrittenLetter={hasWrittenLetter} setHasWrittenLetter={setHasWrittenLetter} setView={setView} unopenedLetters={unopenedLetters} unopenedCounts={unopenedCounts} defaultPrompts={defaultPrompts} numCredits={numCredits} setNumCredits={setNumCredits} />
-      )}
+      {/* {view === 'open' && (
+        <LetterOpener setView={setView} openedLetter={openedLetter} openedID={openedID} />
+      )} */}
 
     </div>
   );

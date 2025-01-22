@@ -7,11 +7,10 @@ export interface LetterEditorProps {
     setHasWrittenLetter: (value: boolean) => void;
     setView: (value: string) => void;
     defaultPrompts: string[];
-    numCredits: number,
-    setNumCredits: (value: number) => void;
+    numUnopenedLetters: number,
 }
 
-export default function LetterEditor({ setHasWrittenLetter, setView, defaultPrompts, numCredits, setNumCredits}: LetterEditorProps) {
+export default function LetterEditor({ setHasWrittenLetter, setView, defaultPrompts, numUnopenedLetters}: LetterEditorProps) {
 
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [prompt, setPrompt] = useState('');
@@ -23,27 +22,6 @@ export default function LetterEditor({ setHasWrittenLetter, setView, defaultProm
         event.preventDefault();
         setHasWrittenLetter(true);
         setIsSubmitted(true);
-
-        const updatedCredits = numCredits + 1;
-        setNumCredits(updatedCredits);
-
-        fetch("/api/update_credit", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({num_credits: updatedCredits}),
-        }).then(async (response) => {
-            if (response.ok) {
-                return await response.json()
-            }
-        }).then((data) => {
-            console.log(data)
-            // do stuff with response here
-        }).catch((error) => {
-            console.error(error)
-            // do stuff with error here
-        })
 
         const letterData = {
             prompt,
@@ -69,9 +47,9 @@ export default function LetterEditor({ setHasWrittenLetter, setView, defaultProm
     if (isSubmitted) {
         return (
             <div>
-                <Envelope prompt={prompt} />
+                <Envelope prompt={prompt} browse={false} setView={setView}/>
                 <p>your letter has been submitted.</p>
-                <p>there are now {numCredits} of community letter credits!</p>
+                <p>there are now {numUnopenedLetters+1} unopened letters!</p>
                 <br/>
                 <button onClick={() => setIsSubmitted(false)}>write another letter</button>&nbsp;
                 <button onClick={() => setView('open')}>open a new letter</button>
@@ -109,6 +87,7 @@ export default function LetterEditor({ setHasWrittenLetter, setView, defaultProm
                         <textarea style={{ height: '14em', width: '40em' }} minLength={100} maxLength={2000} placeholder="write your letter! (100 to 2000 chars)" required value={letterBody} onChange={(e) => setLetterBody(e.target.value)} />
                     </label>
                     {/* <br />
+                    or add an optional audio recording!!!!
                     <label>
                         add an optional image (.png, .jpg, .jpeg) <br />
                         <input type="file" accept=".png, .jpg, .jpeg" />
@@ -116,24 +95,7 @@ export default function LetterEditor({ setHasWrittenLetter, setView, defaultProm
                     <br />
                 </div>
                 <br/>
-                {/* <label>
-                    would you like to donate your open credit to the community? &nbsp;
-                    <input type="checkbox" />
-                </label>
-                <br />
-                <p>who is this letter for?</p>
-                <div>
-                    <label>
-                        <input type="radio" name="recipient" value="myself" required />
-                        myself
-                    </label>
-                    <br />
-                    <label>
-                        <input type="radio" name="recipient" value="someone else" />
-                        someone else
-                    </label>
-                </div>
-                <br /> */}
+
                 <button type="reset">reset</button> &nbsp;
                 <button type="submit" className="custom-button-class">
                     submit

@@ -1,33 +1,39 @@
 import Letter, { LetterProps } from '@/components/letter';
+import LetterOpener from '@/components/letter_opener';
 import PromptSelector from './prompt_selector';
 import { useState, useEffect } from 'react';
 import Envelope from '@/components/envelope';
 
 export interface LetterBrowserProps {
     setView: (value: string) => void;
-    openedLetters: LetterProps[] | null;
+    // setOpenedLetter: (value: LetterProps) => void;
+    // setOpenedID: (value: number) => void;
+    openedLetters: LetterProps[];
+    unopenedLetters: LetterProps[];
     defaultPrompts: string[];
     openedCounts: number[];
     unopenedCounts: number[];
+    view: string;
 }
 
-// TODO: User can click through all the opened letters and then they get to the unopened letters (if they keep searching, then they'll have incentive): "oop, this is a new letter! if you want to open it, you have some options: (write a letter) or (use a letter credit)"
-export default function LetterBrowser({ setView, openedLetters, defaultPrompts, openedCounts, unopenedCounts}: LetterBrowserProps) {
+export default function LetterBrowser({ view, setView, openedLetters, unopenedLetters, defaultPrompts, openedCounts, unopenedCounts}: LetterBrowserProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedPrompt, setSelectedPrompt] = useState('');
-    const [lettersForPrompt, setLettersForPrompt] = useState<LetterProps[] | null>(null);
+    const [numOpenedByPrompt, setNumOpenedByPrompt] = useState(0);
+    const [lettersForPrompt, setLettersForPrompt] = useState<LetterProps[]>(); // opened AND unopened
+    const [browserView, setBrowserView] = useState('');
 
     useEffect(() => {
-        if (openedLetters) {
-            const filtered = openedLetters.filter(letter => letter.prompt === selectedPrompt);
-            setLettersForPrompt(filtered);
-            setCurrentIndex(0);
-        }
-    }, [selectedPrompt, openedLetters]) // effect will only activate if the values in the list change
+        const filteredOpened = openedLetters.filter(letter => letter.prompt === selectedPrompt);
+        setNumOpenedByPrompt(filteredOpened.length);
+        const filteredUnopened = unopenedLetters.filter(letter => letter.prompt === selectedPrompt);
+        setLettersForPrompt(filteredOpened.concat(filteredUnopened));
+        setCurrentIndex(0);
+    }, [selectedPrompt, openedLetters, unopenedLetters]) // effect will only activate if the values in the list change
 
     const handleNext = () => {
-        const { totalCount } = calculateCounts(selectedPrompt);
-        if (lettersForPrompt && currentIndex < totalCount - 1) {
+        // const { totalCount } = calculateCounts(selectedPrompt);
+        if (lettersForPrompt && currentIndex < lettersForPrompt.length - 1) {
             setCurrentIndex(currentIndex + 1);
         }
     };
@@ -47,14 +53,19 @@ export default function LetterBrowser({ setView, openedLetters, defaultPrompts, 
         if (selectedPrompt === '') {
             return (<div className='letter'></div>);
         }
-        console.log("currentIndex", currentIndex);
-        console.log("lettersForPrompt.length", lettersForPrompt.length);
-        if (currentIndex <= lettersForPrompt.length - 1) {
-            console.log("print letter");
+        console.log("openedLetters.length", openedLetters.length);
+        if (currentIndex <= numOpenedByPrompt - 1) {
+            console.log("currentIndex", currentIndex);
             return (<Letter {...lettersForPrompt[currentIndex]} />);
         } else {
-            console.log("print envelope");
-            return (<Envelope prompt={selectedPrompt}/>);
+            console.log("currentIndex", currentIndex); // this can change to the LetterOpener component
+            // setOpenedID(lettersForPrompt[currentIndex].id);
+            // setOpenedLetter(lettersForPrompt[currentIndex]);
+
+            return (<div>
+                <Envelope prompt={selectedPrompt} browse={true} setView={setBrowserView} />
+            </div>
+            );
         }
     };
 
@@ -67,13 +78,13 @@ export default function LetterBrowser({ setView, openedLetters, defaultPrompts, 
             isNextDisabled = true;
         }
 
-        const { totalCount }= calculateCounts(selectedPrompt);
+        // const { totalCount } = calculateCounts(selectedPrompt);
 
         if (currentIndex === 0) {
             isPrevDisabled = true;
         }
 
-        if (currentIndex >= totalCount - 1) {
+        if (lettersForPrompt && (currentIndex >= lettersForPrompt.length - 1)) {
             isNextDisabled = true;
         }
 
@@ -85,30 +96,37 @@ export default function LetterBrowser({ setView, openedLetters, defaultPrompts, 
         );
     };
 
-    const calculateCounts = (prompt: string) => {
-        const unopenedCount = unopenedCounts[defaultPrompts.indexOf(selectedPrompt)];
-        const openedCount = openedCounts[defaultPrompts.indexOf(selectedPrompt)];
-        const totalCount = unopenedCount + openedCount;
-        console.log("totalCount", totalCount);
-        return { unopenedCount, openedCount, totalCount };
+    // const calculateCounts = (prompt: string) => {
+    //     const unopenedCount = unopenedCounts[defaultPrompts.indexOf(selectedPrompt)];
+    //     const openedCount = openedCounts[defaultPrompts.indexOf(selectedPrompt)];
+    //     const totalCount = unopenedCount + openedCount;
+    //     console.log("totalCount", totalCount);
+    //     return { unopenedCount, openedCount, totalCount };
+    // }
+    console.log("view", view);
+    if (lettersForPrompt && lettersForPrompt[currentIndex]) {
+        console.log("lettersForPrompt[currentIndex].id", lettersForPrompt[currentIndex].id);
     }
-
+    
     return (
         <div>
-            <h2>browse letters</h2>
-            
-            <PromptSelector onSelectPrompt={setSelectedPrompt} defaultPrompts={defaultPrompts} label='available' openedCounts={openedCounts} unopenedCounts={unopenedCounts}/>
-            <br />
-            {renderLetters()}
-            <br />
-            {renderNavigationButtons()}
-            <br />
-            <br />
+            {browserView === '' &&
+             <><h2>browse letters</h2>
+                <PromptSelector onSelectPrompt={setSelectedPrompt} defaultPrompts={defaultPrompts} label='available' openedCounts={openedCounts} unopenedCounts={unopenedCounts} />
+                <br />
+                {renderLetters()}
+                <br />
+                {renderNavigationButtons()}
+                <br />
+                <br /></>
+            }
 
-            { selectedPrompt !== '' && <div><p>what&apos;s next?</p>
-            <button onClick={() => setView('write')}>write a letter</button>&nbsp;
-            <button onClick={() => setView('open')}>open a new letter</button></div>}
+            { browserView === 'browserOpen' && lettersForPrompt && <LetterOpener setView={setView} openedLetter={lettersForPrompt[currentIndex]}/>}
+
+            {selectedPrompt !== '' && <div>
+                <p>what&apos;s next?</p>
+                <button onClick={() => setView('write')}>write a letter</button>
+            </div>}
         </div>
     );
 }
-  
