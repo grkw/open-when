@@ -1,17 +1,10 @@
-// import PromptSelector from "./prompt_selector";
 import { useState, useEffect } from 'react';
-// import Envelope from "@/components/envelope";
 import { LetterProps } from "@/components/letter";
 import Letter from "@/components/letter";
 
 export interface LetterOpenerProps {
     setView: (value: string) => void;
     openedLetter: LetterProps;
-    // openedID: number;
-        // const updatedLetter = { ...filteredData[0], is_opened: true }; in Browser
-        // setOpenedID(updatedLetter.id)
-        // setFilteredData([updatedLetter]) ???????
-        // setOpenedLetter(updatedLetter);
 }
 
 // Similar to LetterBrowser but:
@@ -19,14 +12,9 @@ export interface LetterOpenerProps {
 // 2. and we only let them open one letter.
 export default function LetterOpener({ setView, openedLetter }: LetterOpenerProps) {
 
-    console.log("letteropener");
-
-    // const [selectedPrompt, setSelectedPrompt] = useState<string>('');
-    // const [filteredData, setFilteredData] = useState<LetterProps[] | null>(null);
     const [openerName, setOpenerName] = useState<string>('');
     const [openerLocation, setOpenerLocation] = useState<string>('');
-    // const openedID = useState(0);
-    // const openedLetter = useState<LetterProps | null>(null);
+
     const [saved, setSaved] = useState(false);
 
     const saveLetter = () => {
@@ -66,7 +54,7 @@ export default function LetterOpener({ setView, openedLetter }: LetterOpenerProp
                 {saved && <p>your letter has been saved and can now be browsed by the community!</p>}
             </div>
             <br />
-            <button onClick={() => setView('browse')}>return to browsing</button>
+            <button onClick={() => setView('')}>return to browsing</button>
         </div>
     );
 }

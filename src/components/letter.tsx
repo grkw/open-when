@@ -29,10 +29,10 @@ export default function Letter(props: LetterProps) {
         {setOpenerName && setOpenerLocation ? ( // then we know we've just opened it and wanna save the reader info
             <div>
                 <label>
-                    opened by <input id="authorname" style={{ width: '10em' }} minLength={0} maxLength={25} placeholder='your name' value={opener_name} onChange={(e) => setOpenerName && setOpenerName(e.target.value)} />
+                    opened by <input id="authorname" style={{ width: '7em' }} minLength={0} maxLength={25} placeholder='your name' value={opener_name} onChange={(e) => setOpenerName && setOpenerName(e.target.value)} />&nbsp;
                 </label>
                 <label>
-                    in <input id="authorlocation" style={{ width: '10em' }} minLength={0} maxLength={25} value={opener_location} onChange={(e) => setOpenerLocation && setOpenerLocation(e.target.value)} placeholder="where you're reading from" />
+                    in <input id="authorlocation" style={{ width: '13em' }} minLength={0} maxLength={25} value={opener_location} onChange={(e) => setOpenerLocation && setOpenerLocation(e.target.value)} placeholder="where you're reading from" />&nbsp;
                 </label>
                 <label>
                     on {formatDate(new Date().toISOString())}
