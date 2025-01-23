@@ -22,7 +22,7 @@ export default function Envelope({ prompt, browse, setView, author_name, author_
             <div className={styles.triangleDown} />
             <p className={styles.inTriangle}>
                 {prompt}
-                <p>written by {author_name} from {author_location} on {formatDate(created_date)}</p>
+                <p>written by <b>{author_name}</b> from <b>{author_location}</b> on <b>{formatDate(created_date)}</b></p>
             </p>
              
             
