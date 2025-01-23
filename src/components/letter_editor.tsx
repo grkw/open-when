@@ -4,13 +4,12 @@ import PromptSelector from './prompt_selector';
 import Envelope from "@/components/envelope";
 
 export interface LetterEditorProps {
-    setHasWrittenLetter: (value: boolean) => void;
     setView: (value: string) => void;
     defaultPrompts: string[];
     numUnopenedLetters: number,
 }
 
-export default function LetterEditor({ setHasWrittenLetter, setView, defaultPrompts, numUnopenedLetters}: LetterEditorProps) {
+export default function LetterEditor({ setView, defaultPrompts, numUnopenedLetters}: LetterEditorProps) {
 
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [prompt, setPrompt] = useState('');
@@ -25,7 +24,6 @@ export default function LetterEditor({ setHasWrittenLetter, setView, defaultProm
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        setHasWrittenLetter(true);
         setIsSubmitted(true);
 
         const letterData = {
@@ -70,7 +68,7 @@ export default function LetterEditor({ setHasWrittenLetter, setView, defaultProm
         <div>
             <form className={styles.formModule} onSubmit={handleSubmit}>
                 <h2>write a letter</h2>
-                <p>some questions to guide your writing: what things do you tell yourself when you're feeling this way - what would you tell a loved one? what do you recommend for validating it, taking your mind off of it, alleviating it, reminding yourself that this too shall pass?</p>
+                <p>some questions to guide your writing: what things do you tell yourself when you&apos;re feeling this way - what would you tell a loved one? what do you recommend for validating it, taking your mind off of it, alleviating it, reminding yourself that this too shall pass?</p>
                 <br />
                 <div className='letterEditor'>
                     <PromptSelector onSelectPrompt={setPrompt} defaultPrompts={defaultPromptsAndOther}></PromptSelector>

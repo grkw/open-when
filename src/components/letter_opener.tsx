@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { LetterProps } from "@/components/letter";
 import Letter from "@/components/letter";
 

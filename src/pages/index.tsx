@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from "@/utils/supabase/client";
 import LetterBrowser from "@/components/letter_browser";
 import LetterEditor from "@/components/letter_editor";
@@ -7,11 +7,10 @@ import { LetterProps } from "@/components/letter";
 export default function Home() {
 
   const [view, setView] = useState('instructions');
-  const [hasWrittenLetter, setHasWrittenLetter] = useState(false);
   const [openedLetters, setOpenedLetters] = useState<LetterProps[]>([]);
   const [unopenedLetters, setUnopenedLetters] = useState<LetterProps[]>([]);
-  const [unopenedCounts, setUnopenedCounts] = useState<number[]>(new Array());
-  const [openedCounts, setOpenedCounts] = useState<number[]>(new Array());
+  const [unopenedCounts, setUnopenedCounts] = useState<number[]>([]);
+  const [openedCounts, setOpenedCounts] = useState<number[]>([]);
   const [prompts, setPrompts] = useState<string[]>([]);
 
   useEffect(() => {
@@ -88,7 +87,7 @@ export default function Home() {
     console.log("unopened counts", unopenedCountsByPrompt);
     console.log("opened counts", openedCountsByPrompt);
 
-  }, [prompts]);
+  }, [prompts, openedLetters, unopenedLetters]);
 
   const numUnopenedLetters = unopenedLetters ? unopenedCounts.reduce((partialSum, a) => partialSum + a, 0) : NaN;
   const numOpenedLetters = openedLetters ? openedCounts.reduce((partialSum, a) => partialSum + a, 0) : NaN;
@@ -99,7 +98,7 @@ export default function Home() {
 
       {view === 'instructions' && <div>
         <h2>about</h2>
-        <p>this is a community-driven repository of digital "open when..." letters. an "open when..." letter is a letter meant to be opened when "..." (i.e. "open when sad," "open when tired," "open when you need a laugh"). usually, "open when..." letters are written between people who already know each other to keep in touch and feel close in the face of long distance separation. however, I think that the idea is still applicable to internet strangers - we may not know each other, but as fellow human beings, we can still send kindness and well-wishes to each other.</p>
+        <p>this is a community-driven repository of digital <i>open when</i> letters. an <i>open when</i> letter is a letter meant to be opened at a particular time or in a particular situation (i.e. open when sad, open when tired, open when you need a laugh). usually, <i>open when</i> letters are written between people who already know each other to keep in touch and feel close in the face of long distance separation. however, I think that the idea is still applicable to internet strangers - we may not know each other, but as fellow human beings, we can still send kindness and well-wishes to each other.</p>
         <br />
         <h2>getting started</h2>
         <p>welcome, internet friend! how are you feeling?</p>
@@ -114,7 +113,7 @@ export default function Home() {
         <LetterBrowser view={view} setView={setView} unopenedLetters={unopenedLetters} openedLetters={openedLetters} openedCounts={openedCounts} unopenedCounts={unopenedCounts} defaultPrompts={prompts} />
       )}
       {view === 'write' && (
-        <LetterEditor setHasWrittenLetter={setHasWrittenLetter} setView={setView} defaultPrompts={prompts} numUnopenedLetters={numUnopenedLetters} />
+        <LetterEditor setView={setView} defaultPrompts={prompts} numUnopenedLetters={numUnopenedLetters} />
       )}
 
     </div>
