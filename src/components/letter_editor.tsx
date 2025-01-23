@@ -17,6 +17,11 @@ export default function LetterEditor({ setHasWrittenLetter, setView, defaultProm
     const [authorName, setAuthorName] = useState('');
     const [authorLocation, setAuthorLocation] = useState('');
     const [letterBody, setLetterBody] = useState('');
+    
+    const formatDate = (dateString: string) => {
+        const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    };
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
@@ -47,7 +52,7 @@ export default function LetterEditor({ setHasWrittenLetter, setView, defaultProm
     if (isSubmitted) {
         return (
             <div>
-                <Envelope prompt={prompt} browse={false} setView={setView}/>
+                <Envelope prompt={prompt} browse={false} setView={setView} author_name={authorName} author_location={authorLocation} created_date={formatDate(new Date().toISOString())} />
                 <p>your letter has been submitted.</p>
                 <p>there are now {numUnopenedLetters+1} unopened letters!</p>
                 <br/>
@@ -59,15 +64,12 @@ export default function LetterEditor({ setHasWrittenLetter, setView, defaultProm
         );
     }
 
-    const formatDate = (dateString: string) => {
-        const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-        return new Date(dateString).toLocaleDateString(undefined, options);
-    };
 
     return (
         <div>
             <form className={styles.formModule} onSubmit={handleSubmit}>
                 <h2>write a letter</h2>
+                <p>some questions to guide your writing: what things do you tell yourself when you're feeling this way - what would you tell a loved one? what do you recommend for validating it, taking your mind off of it, alleviating it, reminding yourself that this too shall pass?</p>
                 <div className='letter'>
                     <PromptSelector onSelectPrompt={setPrompt} defaultPrompts={defaultPrompts}></PromptSelector>
                     <br />
@@ -84,7 +86,7 @@ export default function LetterEditor({ setHasWrittenLetter, setView, defaultProm
                     <br />
                     <br />
                     <label>
-                        <textarea style={{ height: '14em', width: '40em' }} minLength={100} maxLength={2000} placeholder="write your letter! (100 to 2000 chars)" required value={letterBody} onChange={(e) => setLetterBody(e.target.value)} />
+                        <textarea style={{ height: '14em', width: '40em' }} minLength={100} maxLength={2000} placeholder="write your letter! (100 to 2000 chars) " required value={letterBody} onChange={(e) => setLetterBody(e.target.value)} />
                     </label>
                     {/* <br />
                     or add an optional audio recording!!!!

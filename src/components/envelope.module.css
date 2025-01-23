@@ -22,21 +22,6 @@
   outline: black;
 }
 
-.up {
-  width: 0px;
-  height: 0px;
-  border-style: inset;
-  border-width: 0 100px 173.2px 100px;
-  border-color: transparent transparent #007bff transparent;
-  float: left;
-  transform: rotate(360deg);
-  -ms-transform: rotate(360deg);
-  -moz-transform: rotate(360deg);
-  -webkit-transform: rotate(360deg);
-  -o-transform: rotate(360deg);
-  background-color: red;
-}
-
 .inTriangle {
   top: -200px;
   position: relative;

@@ -58,8 +58,9 @@ input, button, textarea {
 }
 
 .letter {
+  height: 100%;
   color:black;
-  text-align: center;
+  text-align: left;
   padding: 20px;
   width: 960px;
   height: 480px;
@@ -67,6 +68,12 @@ input, button, textarea {
 }
 
 .letter_body {
+  text-align: left;
+}
+
+.letter_footer {
+  /* align-self: flex-end; */
+  margin-top: auto;
   text-align: left;
 }
 

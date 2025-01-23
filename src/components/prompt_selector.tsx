@@ -43,12 +43,13 @@ export default function PromptSelector({ onSelectPrompt, unopenedCounts, openedC
     };
 
     return (<div>
+        <br />
         <label>
-        &quot;open when...&quot; <br />
-            <select value={selectedPrompt} onChange={handleSelectChange} style={{outline: '1px'}} required >
+        open when&nbsp; 
+            <select value={selectedPrompt} onChange={handleSelectChange} required autoFocus >
                 <option value="" disabled>select a prompt</option>
                 {defaultPrompts.map((prompt, index) => (
-                    <option key={index} value={prompt} disabled={((openedCounts && unopenedCounts) && openedCounts[index] === 0) || ((unopenedCounts && !openedCounts) && unopenedCounts[index] === 0)}> 
+                    <option key={index} value={prompt} disabled={((openedCounts && unopenedCounts) && openedCounts[index] === 0 && unopenedCounts[index] === 0)}> 
                             {prompt} 
                     </option>
                 ))}

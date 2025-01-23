@@ -24,10 +24,12 @@ export default function Letter(props: LetterProps) {
     };
 
     return (<div className='letter'>
-        <div>{prompt}</div>
-        <div>written by <em>{author_name}</em> from <em>{author_location}</em> on <em>{formatDate(created_date)}</em> </div>
-        {setOpenerName && setOpenerLocation ? ( // then we know we've just opened it and wanna save the reader info
-            <div>
+        <div style={{textAlign: 'center'}}>{prompt}</div>
+        
+        <br/>
+        <div className='letter_body'>
+        </div>{setOpenerName && setOpenerLocation ? ( // then we know we've just opened it and wanna save the reader info
+            <div >
                 <label>
                     opened by <input id="authorname" style={{ width: '7em' }} minLength={0} maxLength={25} placeholder='your name' value={opener_name} onChange={(e) => setOpenerName && setOpenerName(e.target.value)} />&nbsp;
                 </label>
@@ -40,9 +42,13 @@ export default function Letter(props: LetterProps) {
             </div>
 
         ) : (
-            <div>opened by <em>{opener_name}</em> in <em>{opener_location}</em> on <em>{formatDate(opened_date)}</em></div>
+            <div>opened by {opener_name} in {opener_location} on {formatDate(opened_date)}</div>
         )}
-        <br />
-        <div className='letter_body'><em>{letter_body}</em></div>
+        <br/>
+        {letter_body}
+
+        <div className='letter_footer'>written by {author_name} from {author_location} on {formatDate(created_date)} </div>
+        
+
     </div>);
 } 

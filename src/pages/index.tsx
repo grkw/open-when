@@ -120,15 +120,17 @@ export default function Home() {
     <div className="wrapper">
       <h1>open when...</h1>
 
-      {view === 'instructions' && <div><p>welcome, internet friend! how are you feeling?</p>
+      {view === 'instructions' && <div>
+        <h2>about</h2>
+        <p>this is a community-driven repository of digital "open when..." letters. an "open when..." letter is a letter meant to be opened when "..." (i.e. "open when sad," "open when tired," "open when you need a laugh"). usually, "open when..." letters are written between people who already know each other to keep in touch and feel close in the face of long distance separation. however, I think that the idea is still applicable to internet strangers - we may not know each other, but as fellow human beings, we can still send kindness and well-wishes to each other.</p>
+        <br /> 
+        <h2>getting started</h2>
+        <p>welcome, internet friend! how are you feeling?</p>
         <br />
-        <p>this is a community-driven site that allows people to give and receive emotional support via digital letters. we may not know each other, but as fellow human beings, we can still send kindness and well-wishes to each other.</p>
+        <p>want some advice on how to navigate a particular feeling? you can <button onClick={() => setView('browse')}>browse letters</button> that have been written by past site visitors. there are currently <b>{0} opened letters</b> (which another person has opened and signed, and now anyone can read) and <b>{0} new letters</b> (letters that have yet to be opened and signed).</p>
         <br />
-        <p>if you&apos;re looking for some advice on how to navigate a particular feeling, you can browse letters that have been opened — and if there are unopened letters available, you can open and sign them, making them available for anyone to see!</p>
+        <p>want to provide emotional support to a fellow internet friend? you can <button onClick={() => setView('write')}>write a letter</button> for someone else to open. I find that the act of writing is immensely valuable in itself.</p>
         <br />
-        <p>if you&apos;d like to provide emotional support to a fellow internet friend, you can submit your own letter for someone else.</p>
-        <br />
-        <button onClick={() => setView('browse')}>browse letters</button>
         </div>}
 
       {view === 'browse' && (

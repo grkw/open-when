@@ -48,16 +48,22 @@ export default function LetterBrowser({ view, setView, openedLetters, unopenedLe
         }
 
         if (selectedPrompt === '') {
-            return (<div className='letter'></div>);
+            return (<div className='letter' style={{ 'backgroundColor': 'white' }}></div>);
         }
-        if (currentIndex <= numOpenedByPrompt - 1) {
-            return (<Letter {...lettersForPrompt[currentIndex]} />);
-        } else {
-            return (<div>
-                <Envelope prompt={selectedPrompt} browse={true} setView={setBrowserView} />
-            </div>
-            );
+        if (lettersForPrompt[currentIndex]) {
+            if (currentIndex <= numOpenedByPrompt - 1) {
+                return (<Letter {...lettersForPrompt[currentIndex]} />);
+            } else {
+                const author_name = lettersForPrompt[currentIndex].author_name;
+                const author_location = lettersForPrompt[currentIndex].author_location;
+                const created_date = lettersForPrompt[currentIndex].created_date;
+                return (<div>
+                    <Envelope prompt={selectedPrompt} browse={true} setView={setBrowserView} author_name={author_name} author_location={author_location} created_date={created_date} />
+                </div>
+                );
+            }
         }
+        return;
     };
 
     const renderNavigationButtons = () => {
@@ -77,8 +83,9 @@ export default function LetterBrowser({ view, setView, openedLetters, unopenedLe
             isNextDisabled = true;
         }
 
-        return (
+        return (selectedPrompt !== '' &&
             <>
+
                 <button className={isPrevDisabled ? 'disabled' : ''} onClick={handlePrev} disabled={isPrevDisabled}>prev</button>&nbsp;
                 <button className={isNextDisabled ? 'disabled' : ''} onClick={handleNext} disabled={isNextDisabled}>next</button>
             </>
