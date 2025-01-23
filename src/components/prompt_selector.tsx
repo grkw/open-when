@@ -43,7 +43,6 @@ export default function PromptSelector({ onSelectPrompt, unopenedCounts, openedC
     };
 
     return (<div>
-        <br />
         <label>
         open when&nbsp; 
             <select value={selectedPrompt} onChange={handleSelectChange} required autoFocus >

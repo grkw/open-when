@@ -70,9 +70,22 @@ export default function LetterEditor({ setHasWrittenLetter, setView, defaultProm
             <form className={styles.formModule} onSubmit={handleSubmit}>
                 <h2>write a letter</h2>
                 <p>some questions to guide your writing: what things do you tell yourself when you're feeling this way - what would you tell a loved one? what do you recommend for validating it, taking your mind off of it, alleviating it, reminding yourself that this too shall pass?</p>
-                <div className='letter'>
+                <br />
+                <div className='letterEditor'>
                     <PromptSelector onSelectPrompt={setPrompt} defaultPrompts={defaultPrompts}></PromptSelector>
                     <br />
+                    <label>
+                        <textarea style={{ height: '18em', width: '50em' }} minLength={100} maxLength={2000} placeholder="write your letter! (100 to 2000 chars) " required value={letterBody} onChange={(e) => setLetterBody(e.target.value)} />
+                    </label>
+                    {/* <br />
+                    or add an optional audio recording!!!!
+                    <label>
+                        add an optional image (.png, .jpg, .jpeg) <br />
+                        <input type="file" accept=".png, .jpg, .jpeg" />
+                    </label> */}
+          
+                    <br />
+                    <div style={{alignSelf: 'flex-start'}}>
                     <label>
                         written by <input id="authorname" style={{ width: '10em' }} minLength={0} maxLength={25} placeholder='your name' value={authorName} onChange={(e) => setAuthorName(e.target.value)} />
                     </label>
@@ -82,19 +95,7 @@ export default function LetterEditor({ setHasWrittenLetter, setView, defaultProm
                     <label>
                         &nbsp;on {formatDate(new Date().toISOString())}
                     </label>
-                    <br />
-                    <br />
-                    <br />
-                    <label>
-                        <textarea style={{ height: '14em', width: '40em' }} minLength={100} maxLength={2000} placeholder="write your letter! (100 to 2000 chars) " required value={letterBody} onChange={(e) => setLetterBody(e.target.value)} />
-                    </label>
-                    {/* <br />
-                    or add an optional audio recording!!!!
-                    <label>
-                        add an optional image (.png, .jpg, .jpeg) <br />
-                        <input type="file" accept=".png, .jpg, .jpeg" />
-                    </label> */}
-                    <br />
+                    </div>
                 </div>
                 <br/>
 
