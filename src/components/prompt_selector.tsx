@@ -53,9 +53,9 @@ export default function PromptSelector({ onSelectPrompt, unopenedCounts, openedC
                     </option>
                 ))}
             </select>
-            &nbsp;{(openedCounts && unopenedCounts) && selectedPrompt !== '' && ` (${openedCounts[defaultPrompts.indexOf(selectedPrompt)]} opened${`, ${unopenedCounts[defaultPrompts.indexOf(selectedPrompt)]} unopened`})`} 
+            {/* &nbsp;{(openedCounts && unopenedCounts) && selectedPrompt !== '' && ` (${openedCounts[defaultPrompts.indexOf(selectedPrompt)]} opened${`, ${unopenedCounts[defaultPrompts.indexOf(selectedPrompt)]} unopened`})`}  */}
         </label>
-        <br />
+        &nbsp;
 
         {showOtherInput && (
             <label>

@@ -88,6 +88,7 @@ export default function LetterBrowser({ view, setView, openedLetters, unopenedLe
 
                 <button className={isPrevDisabled ? 'disabled' : ''} onClick={handlePrev} disabled={isPrevDisabled}>prev</button>&nbsp;
                 <button className={isNextDisabled ? 'disabled' : ''} onClick={handleNext} disabled={isNextDisabled}>next</button>
+                &nbsp;{(openedCounts && unopenedCounts) && selectedPrompt !== '' && ` (${openedCounts[defaultPrompts.indexOf(selectedPrompt)]} opened${`, ${unopenedCounts[defaultPrompts.indexOf(selectedPrompt)]} unopened`})`}
             </>
         );
     };
