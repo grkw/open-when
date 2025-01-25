@@ -51,7 +51,7 @@ export default function LetterOpener({ setView, openedLetter }: LetterOpenerProp
                 }
                 <br />
                 {openedLetter && <button onClick={saveLetter}>save letter</button>}
-                {saved && <p>your letter has been saved and can now be browsed by the community!</p>}
+                {saved && <p>your letter has been saved and can now be browsed by the community! (but you gotta reload the page to see the change, hehe. I am working on fixing this...!)</p>}
             </div>
             <br />
             <button onClick={() => setView('')}>return to browsing</button>

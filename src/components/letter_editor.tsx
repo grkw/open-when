@@ -51,7 +51,7 @@ export default function LetterEditor({ setView, defaultPrompts, numUnopenedLette
         return (
             <div>
                 <Envelope prompt={prompt} browse={false} setView={setView} author_name={authorName} author_location={authorLocation} created_date={formatDate(new Date().toISOString())} />
-                <p>your letter has been submitted.</p>
+                <p>your letter has been submitted. (but you gotta reload the page to see the change, hehe. I am working on fixing this...!)</p>
                 <p>there are now {numUnopenedLetters+1} unopened letters!</p>
                 <br/>
                 <button onClick={() => setIsSubmitted(false)}>write another letter</button>&nbsp;
