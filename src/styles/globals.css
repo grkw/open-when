@@ -100,3 +100,11 @@ input, button, textarea {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 1em;
+  width: 100%;
+  text-align: center;
+}
