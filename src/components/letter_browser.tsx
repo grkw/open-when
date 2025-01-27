@@ -11,10 +11,9 @@ export interface LetterBrowserProps {
     defaultPrompts: string[];
     openedCounts: number[];
     unopenedCounts: number[];
-    view: string;
 }
 
-export default function LetterBrowser({ view, setView, openedLetters, unopenedLetters, defaultPrompts, openedCounts, unopenedCounts }: LetterBrowserProps) {
+export default function LetterBrowser({ setView, openedLetters, unopenedLetters, defaultPrompts, openedCounts, unopenedCounts }: LetterBrowserProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedPrompt, setSelectedPrompt] = useState('');
     const [numOpenedByPrompt, setNumOpenedByPrompt] = useState(0);
