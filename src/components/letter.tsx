@@ -43,7 +43,7 @@ export default function Letter(props: LetterProps) {
             <div>opened by <b>{opener_name}</b> in <b>{opener_location}</b> on <b>{formatDate(opened_date)}</b></div>
         )}
         <br />
-        <div>{letter_body}</div>
+        <div><p style={{whiteSpace: 'pre-line'}}>{letter_body}</p></div>
         
         <br />
         <div className='letter_footer'>written by <b>{author_name}</b> from <b>{author_location}</b> on <b>{formatDate(created_date)}</b></div>
