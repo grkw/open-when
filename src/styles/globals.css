@@ -47,13 +47,12 @@ input, button, textarea {
 }
 
 .wrapper {
-  /* background-color: red; */
   display: 'flex';
   flex-direction: 'column';
   align-items: 'center';
   width: 80vw;
-  max-width: 960px;
-  min-width: 80px;
+  /* max-width: 960px;
+  min-width: 80px; */
   margin: 0px auto;
 }
 
@@ -64,8 +63,8 @@ input, button, textarea {
   color:black;
   text-align: left;
   padding: 20px;
-  width: 960px;
-  height: 480px;
+  width: 80vw;
+  height: 40vw;
   background-color: oldlace;
 }
 
@@ -78,8 +77,8 @@ input, button, textarea {
   color:black;
   text-align: left;
   padding: 20px;
-  width: 960px;
-  height: 480px;
+  width: 80vw;
+  height: 40vw;
   background-color: oldlace;
 }
 
@@ -102,9 +101,8 @@ input, button, textarea {
 }
 
 .footer {
-  /* position: fixed; */
   left: 0;
   bottom: 1em;
   width: 100%;
-  text-align: center;
+  text-align: left;
 }

@@ -24,14 +24,14 @@ export default function Home() {
         if (openedResponse.error) {
           console.error('Error fetching opened letters:', openedResponse.error);
         } else {
-          console.log('Opened letters:', openedResponse.data);
+          // console.log('Opened letters:', openedResponse.data);
           setOpenedLetters(openedResponse.data);
         }
 
         if (unopenedResponse.error) {
           console.error('Error fetching unopened letters:', unopenedResponse.error);
         } else {
-          console.log('Unopened letters:', unopenedResponse.data);
+          // console.log('Unopened letters:', unopenedResponse.data);
           setUnopenedLetters(unopenedResponse.data);
         }
 
@@ -40,14 +40,17 @@ export default function Home() {
       }
     };
 
-    fetchLetters();
-  }, []);
+    if (view === 'browse' || view === 'instructions') {
+      fetchLetters();
+    }
+    
+  }, [view]);
 
   useEffect(() => {
     if (unopenedLetters.length > 0 || openedLetters.length > 0) {
 
-      console.log("unopened Prompts", unopenedLetters.map(letter => letter.prompt));
-      console.log("opened Prompts", openedLetters.map(letter => letter.prompt));
+      // console.log("unopened Prompts", unopenedLetters.map(letter => letter.prompt));
+      // console.log("opened Prompts", openedLetters.map(letter => letter.prompt));
 
       const uniquePrompts = new Set([
         ...unopenedLetters.map(letter => letter.prompt),
@@ -59,7 +62,7 @@ export default function Home() {
   }, [openedLetters, unopenedLetters]);
 
   useEffect(() => {
-    console.log("unique Prompts", Array.from(prompts));
+    // console.log("unique Prompts", Array.from(prompts));
 
     const unopenedCountsByPrompt = new Array(prompts.length).fill(0);
     const openedCountsByPrompt = new Array(prompts.length).fill(0);
@@ -84,8 +87,8 @@ export default function Home() {
 
     setOpenedCounts(openedCountsByPrompt);
     setUnopenedCounts(unopenedCountsByPrompt);
-    console.log("unopened counts", unopenedCountsByPrompt);
-    console.log("opened counts", openedCountsByPrompt);
+    // console.log("unopened counts", unopenedCountsByPrompt);
+    // console.log("opened counts", openedCountsByPrompt);
 
   }, [prompts, openedLetters, unopenedLetters]);
 

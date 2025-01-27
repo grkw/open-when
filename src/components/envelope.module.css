@@ -1,8 +1,8 @@
 .envelope {
   color:black;
   text-align: center;
-  width: 960px; 
-  height: 480px;
+  width: 80vw; 
+  height: 40vw;
   padding-top: 0em;
   padding-bottom: 0em;
   border-radius: 2px;
@@ -16,14 +16,14 @@
 .triangleDown {
   width: 0;
   height: 0;
-  border-left: 480px solid transparent;
-  border-right: 480px solid transparent;
-  border-top: 240px solid antiquewhite;
+  border-left: 40vw solid transparent;
+  border-right: 40vw solid transparent;
+  border-top: 20vw solid antiquewhite;
   outline: black;
 }
 
 .inTriangle {
-  top: -200px;
+  top: -20vw;
   position: relative;
   margin: 0px auto;
 }

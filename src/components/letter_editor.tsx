@@ -52,7 +52,7 @@ export default function LetterEditor({ setView, defaultPrompts, numUnopenedLette
             <div>
                 <br />
                 <Envelope prompt={prompt} browse={false} setView={setView} author_name={authorName} author_location={authorLocation} created_date={formatDate(new Date().toISOString())} />
-                <p>your letter has been submitted. (but you gotta reload the page to see the change, hehe. I am working on fixing this...!)</p>
+                <p>your letter has been submitted.</p>
                 <br />
                 <p>there are now <b>{numUnopenedLetters+1}</b> unopened letters!</p>
                 <br/>
