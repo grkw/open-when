@@ -21,6 +21,22 @@ export default function LetterBrowser({ view, setView, openedLetters, unopenedLe
     const [lettersForPrompt, setLettersForPrompt] = useState<LetterProps[]>(); // opened AND unopened
     const [browserView, setBrowserView] = useState('');
 
+    const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === 'ArrowLeft') {
+            handlePrev();
+        } else if (event.key === 'ArrowRight') {
+            handleNext();
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [lettersForPrompt, currentIndex]); // Add dependencies to ensure the event listener is updated
+
+
     useEffect(() => {
         const filteredOpened = openedLetters.filter(letter => letter.prompt === selectedPrompt);
         setNumOpenedByPrompt(filteredOpened.length);
