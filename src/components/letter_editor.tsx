@@ -21,12 +21,16 @@ export default function LetterEditor({ setView, defaultPrompts, numUnopenedLette
         return new Date(dateString).toLocaleDateString(undefined, options);
     };
 
-    useEffect(() => {
-        // Reset form fields when the component mounts
+    const handleReset = () => {
         setPrompt('');
         setLetterBody('');
         setAuthorName('');
         setAuthorLocation('');
+    }
+
+    useEffect(() => {
+        // Reset form fields when the component mounts
+        handleReset();
     }, []);
 
     const handleSubmit = (event: React.FormEvent) => {
@@ -94,10 +98,10 @@ export default function LetterEditor({ setView, defaultPrompts, numUnopenedLette
                     <br />
                     <div style={{alignSelf: 'flex-start'}}>
                     <label>
-                        written by <input id="authorname" style={{ width: '10em' }} minLength={0} maxLength={25} placeholder='your name' value={authorName} onChange={(e) => setAuthorName(e.target.value)} />
+                        written by <input id="authorname" type="text" style={{ width: '10em' }} minLength={0} maxLength={25} placeholder='your name' value={authorName} onChange={(e) => setAuthorName(e.target.value)} />
                     </label>
                     <label>
-                        &nbsp;from <input id="authorlocation" style={{ width: '13em' }} minLength={0} maxLength={25} placeholder={'where you\'re writing from'} value={authorLocation} onChange={(e) => setAuthorLocation(e.target.value)} />
+                        &nbsp;from <input id="authorlocation" type="text" style={{ width: '13em' }} minLength={0} maxLength={25} placeholder={'where you\'re writing from'} value={authorLocation} onChange={(e) => setAuthorLocation(e.target.value)} />
                     </label>
                     <label>
                         &nbsp;on {formatDate(new Date().toISOString())}
@@ -106,7 +110,7 @@ export default function LetterEditor({ setView, defaultPrompts, numUnopenedLette
                 </div>
                 <br/>
 
-                <button type="reset">reset</button> &nbsp;
+                <button onClick={handleReset} type="reset">reset</button> &nbsp;
                 <button type="submit" className="custom-button-class">
                     submit
                 </button> 
