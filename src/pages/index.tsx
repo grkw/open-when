@@ -17,8 +17,8 @@ export default function Home() {
     const fetchLetters = async () => {
       try {
         const [openedResponse, unopenedResponse] = await Promise.all([
-          supabase.from("letters").select().eq('is_opened', 'true'),
-          supabase.from("letters").select().eq('is_opened', 'false')
+          supabase.from("letters").select().eq('is_opened', 'true').order('id', {ascending: false}),
+          supabase.from("letters").select().eq('is_opened', 'false').order('id', {ascending: false}),
         ]);
 
         if (openedResponse.error) {
