@@ -126,7 +126,7 @@ export default function Home() {
       }
 
       {view === 'browse' && (
-        <LetterBrowser view={view} setView={setView} unopenedLetters={unopenedLetters} openedLetters={openedLetters} openedCounts={openedCounts} unopenedCounts={unopenedCounts} defaultPrompts={prompts} />
+        <LetterBrowser setView={setView} unopenedLetters={unopenedLetters} openedLetters={openedLetters} openedCounts={openedCounts} unopenedCounts={unopenedCounts} defaultPrompts={prompts} />
       )}
       {view === 'write' && (
         <LetterEditor setView={setView} defaultPrompts={prompts} numUnopenedLetters={numUnopenedLetters} />
