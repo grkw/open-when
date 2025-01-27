@@ -109,10 +109,10 @@ export default function LetterBrowser({ view, setView, openedLetters, unopenedLe
         );
     };
 
-    console.log("view", view);
-    if (lettersForPrompt && lettersForPrompt[currentIndex]) {
-        console.log("lettersForPrompt[currentIndex].id", lettersForPrompt[currentIndex].id);
-    }
+    // console.log("view", view);
+    // if (lettersForPrompt && lettersForPrompt[currentIndex]) {
+    //     console.log("lettersForPrompt[currentIndex].id", lettersForPrompt[currentIndex].id);
+    // }
 
     return (
         <div>
@@ -131,7 +131,8 @@ export default function LetterBrowser({ view, setView, openedLetters, unopenedLe
 
             <br />
             <button onClick={() => setView('write')}>write a letter</button>
-
+            <br />
+            <br />
         </div>
     );
 }

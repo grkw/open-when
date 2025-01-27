@@ -64,7 +64,7 @@ input, button, textarea {
   text-align: left;
   padding: 20px;
   width: 80vw;
-  height: 40vw;
+  min-height: 40vw;
   background-color: oldlace;
 }
 
@@ -78,7 +78,7 @@ input, button, textarea {
   text-align: left;
   padding: 20px;
   width: 80vw;
-  height: 40vw;
+  min-height: 40vw;
   background-color: oldlace;
 }
 

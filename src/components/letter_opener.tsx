@@ -55,6 +55,8 @@ export default function LetterOpener({ setView, openedLetter }: LetterOpenerProp
             </div>
             <br />
             <button onClick={() => setView('')}>return to browsing</button>
+            <br />
+            <br />
         </div>
     );
 }

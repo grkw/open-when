@@ -2,15 +2,11 @@
   color:black;
   text-align: center;
   width: 80vw; 
-  height: 40vw;
+  height: 40vw; 
   padding-top: 0em;
-  padding-bottom: 0em;
+  padding-bottom: 1em;
   border-radius: 2px;
   background-color: oldlace;
-}
-
-.button {
-  border: none;
 }
 
 .triangleDown {
@@ -22,8 +18,19 @@
   outline: black;
 }
 
+/* Mobile-friendly styles */
+@media (max-width: 768px) {
+  .envelope {
+    height: 100%;
+  }
+}
+
+.button {
+  border: none;
+}
+
 .inTriangle {
-  top: -20vw;
+  top: -17vw;
   position: relative;
   margin: 0px auto;
 }

@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import styles from '@/components/letter_editor.module.css';
+import { useState, useEffect } from 'react';
 import PromptSelector from './prompt_selector';
 import Envelope from "@/components/envelope";
 
@@ -21,6 +20,14 @@ export default function LetterEditor({ setView, defaultPrompts, numUnopenedLette
         const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
         return new Date(dateString).toLocaleDateString(undefined, options);
     };
+
+    useEffect(() => {
+        // Reset form fields when the component mounts
+        setPrompt('');
+        setLetterBody('');
+        setAuthorName('');
+        setAuthorLocation('');
+    }, []);
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
@@ -51,7 +58,7 @@ export default function LetterEditor({ setView, defaultPrompts, numUnopenedLette
         return (
             <div>
                 <br />
-                <Envelope prompt={prompt} browse={false} setView={setView} author_name={authorName} author_location={authorLocation} created_date={formatDate(new Date().toISOString())} />
+                <Envelope prompt={prompt} browse={false} setView={setView} author_name={authorName} author_location={authorLocation} created_date={new Date().toISOString()} />
                 <p>your letter has been submitted.</p>
                 <br />
                 <p>there are now <b>{numUnopenedLetters+1}</b> unopened letters!</p>
@@ -67,7 +74,7 @@ export default function LetterEditor({ setView, defaultPrompts, numUnopenedLette
 
     return (
         <div>
-            <form className={styles.formModule} onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <h2>write a letter</h2>
                 <p>some questions to guide your writing: what things do you tell yourself when you&apos;re feeling this way - what would you tell a loved one? what do you recommend for validating it, taking your mind off of it, alleviating it, reminding yourself that this too shall pass?</p>
                 <br />
@@ -75,7 +82,7 @@ export default function LetterEditor({ setView, defaultPrompts, numUnopenedLette
                     <PromptSelector onSelectPrompt={setPrompt} defaultPrompts={defaultPromptsAndOther}></PromptSelector>
                     <br />
                     <label>
-                        <textarea style={{ height: '18em', width: '50em' }} minLength={100} maxLength={2000} placeholder="write your letter! (100 to 2000 chars) " required value={letterBody} onChange={(e) => setLetterBody(e.target.value)} />
+                        <textarea style={{ height: '30vw', width: '75vw' }} minLength={100} maxLength={2000} placeholder="write your letter! (100 to 2000 chars) " required value={letterBody} onChange={(e) => setLetterBody(e.target.value)} />
                     </label>
                     {/* <br />
                     or add an optional audio recording!!!!
@@ -107,7 +114,8 @@ export default function LetterEditor({ setView, defaultPrompts, numUnopenedLette
                 <br />
                 <br />
                 <button onClick={() => setView('browse')}>return to browsing</button>
-
+                <br />
+                <br />
             </form>
         </div>
     );

@@ -135,6 +135,8 @@ export default function Home() {
 
       {view === 'instructions' && <div className='footer'>
         <p>made by <u><a href="https://gracekwak.me/">Grace</a></u> (she/her) at the <u><a href="https://www.recurse.com/">Recurse Center</a></u> in January 2025. a work in progress. <u><a href="https://github.com/grkw/open-when/tree/main">source code</a></u>.</p>
+        <br />
+        <br />
       </div>}
     </div>
   );
