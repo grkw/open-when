@@ -1,6 +1,6 @@
 <div style="padding: 0;margin-left: auto;margin-right: auto;margin-top: 20px;text-align: center;"> 
-  <img style="width: 500px;vertical-align: middle;" alt="open-when-demo-browsing" src="https://github.com/user-attachments/assets/84990502-5a3b-4f8f-a13a-cea0b00b742a" />&nbsp;
-  <img style="width: 500px;vertical-align: middle;" alt="open-when-demo-writing" src="https://github.com/user-attachments/assets/f737f845-a569-42a0-8727-b8e1e95b83e3" />
+  <img style="width: 400px;vertical-align: middle;" alt="open-when-demo-browsing" src="https://github.com/user-attachments/assets/84990502-5a3b-4f8f-a13a-cea0b00b742a" />&nbsp;
+  <img style="width: 400px;vertical-align: middle;" alt="open-when-demo-writing" src="https://github.com/user-attachments/assets/f737f845-a569-42a0-8727-b8e1e95b83e3" />
 </div>
 
 <h1 align="center">Open When</h1>
