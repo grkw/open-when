@@ -1,6 +1,20 @@
-# Open When
+<h1 align="center">Open When</h1>
+
+<p align="center">
+
+  <a href="https://opensource.org/licenses/MIT">
+    <img alt="License" src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge">
+  </a>
+
+  <img alt="Version 1.0.0" src="https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge">
+  
+</p>
 
 Open When is a community-driven repository of digital *open when* letters. An *open when* letter is a letter meant to be opened at a particular time or in a particular situation (i.e. open when sad, open when tired, open when you need a laugh). Usually, *open when* letters are written between people who already know each other to keep in touch and feel close during long distance separation. However, I think that the idea is still applicable to internet strangers - we may not know each other, but as fellow human beings, we can still send kindness and well-wishes to each other.
+
+## Built with
+- ![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB&style=for-the-badge)
+- ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white&style=for-the-badge)
 
 ## Features
 
