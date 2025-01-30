@@ -1,4 +1,5 @@
 import styles from '@/components/envelope.module.css';
+import { formatDate } from '@/utils/utils';
 
 export interface EnvelopeProps {
     prompt: string,
@@ -10,11 +11,6 @@ export interface EnvelopeProps {
 }
 
 export default function Envelope({ prompt, browse, setView, author_name, author_location, created_date}: EnvelopeProps) {
-
-    const formatDate = (dateString: string) => {
-        const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-        return new Date(dateString).toLocaleDateString(undefined, options);
-    };
 
     return (
         <div className={styles.envelope}>
