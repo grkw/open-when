@@ -8,7 +8,7 @@ export interface LetterBrowserProps {
     setView: (value: string) => void;
     openedLetters: LetterProps[];
     unopenedLetters: LetterProps[];
-    defaultPrompts: string[];
+    prompts: string[];
     openedCounts: number[];
     unopenedCounts: number[];
     numOpenedLetters: number;
@@ -17,7 +17,7 @@ export interface LetterBrowserProps {
     setNumOpenedLetters: (value : number) => void;
 }
 
-export default function LetterBrowser({ setView, openedLetters, unopenedLetters, defaultPrompts, openedCounts, unopenedCounts, setNumOpenedLetters, setNumUnopenedLetters, numOpenedLetters, numUnopenedLetters}: LetterBrowserProps) {
+export default function LetterBrowser({ setView, openedLetters, unopenedLetters, prompts, openedCounts, unopenedCounts, setNumOpenedLetters, setNumUnopenedLetters, numOpenedLetters, numUnopenedLetters}: LetterBrowserProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedPrompt, setSelectedPrompt] = useState('');
     const [numOpenedByPrompt, setNumOpenedByPrompt] = useState(0);
@@ -107,7 +107,7 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
 
                 <button className={isPrevDisabled ? 'disabled' : ''} onClick={handlePrev} disabled={isPrevDisabled}>prev</button>&nbsp;
                 <button className={isNextDisabled ? 'disabled' : ''} onClick={handleNext} disabled={isNextDisabled}>next</button>
-                &nbsp;{(openedCounts && unopenedCounts) && selectedPrompt !== '' && ` (${openedCounts[defaultPrompts.indexOf(selectedPrompt)]} opened${`, ${unopenedCounts[defaultPrompts.indexOf(selectedPrompt)]} unopened`})`}
+                &nbsp;{(openedCounts && unopenedCounts) && selectedPrompt !== '' && ` (${openedCounts[prompts.indexOf(selectedPrompt)]} opened${`, ${unopenedCounts[prompts.indexOf(selectedPrompt)]} unopened`})`}
             </>
         );
     };
@@ -116,7 +116,7 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
         <div>
             {browserView === '' &&
                 <><h2>browse letters</h2>
-                    <PromptSelector onSelectPrompt={setSelectedPrompt} defaultPrompts={defaultPrompts} label='available' openedCounts={openedCounts} unopenedCounts={unopenedCounts} />
+                    <PromptSelector onSelectPrompt={setSelectedPrompt} prompts={prompts} label='available' openedCounts={openedCounts} unopenedCounts={unopenedCounts} />
                     <br />
                     {renderLetters()}
                     <br />

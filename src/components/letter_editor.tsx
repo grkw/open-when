@@ -4,12 +4,12 @@ import Envelope from "@/components/envelope";
 
 export interface LetterEditorProps {
     setView: (value: string) => void;
-    defaultPrompts: string[];
+    prompts: string[];
     numUnopenedLetters: number,
     setNumUnopenedLetters: (value : number) => void;
 }
 
-export default function LetterEditor({ setView, defaultPrompts, numUnopenedLetters, setNumUnopenedLetters}: LetterEditorProps) {
+export default function LetterEditor({ setView, prompts, numUnopenedLetters, setNumUnopenedLetters}: LetterEditorProps) {
 
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [prompt, setPrompt] = useState('');
@@ -76,7 +76,7 @@ export default function LetterEditor({ setView, defaultPrompts, numUnopenedLette
         );
     }
 
-    const defaultPromptsAndOther = [...defaultPrompts, 'other'];
+    const promptsAndOther = [...prompts, 'other'];
 
     return (
         <div>
@@ -85,7 +85,7 @@ export default function LetterEditor({ setView, defaultPrompts, numUnopenedLette
                 <p>some questions to guide your writing: what things do you tell yourself when you&apos;re feeling this way - what would you tell a loved one? what do you recommend for validating it, taking your mind off of it, alleviating it, reminding yourself that this too shall pass?</p>
                 <br />
                 <div className='letterEditor'>
-                    <PromptSelector onSelectPrompt={setPrompt} defaultPrompts={defaultPromptsAndOther}></PromptSelector>
+                    <PromptSelector onSelectPrompt={setPrompt} prompts={promptsAndOther}></PromptSelector>
                     <br />
                     <label>
                         <textarea style={{ height: '30vw', width: '75vw' }} minLength={100} maxLength={2000} placeholder="write your letter! (100 to 2000 chars) " required value={letterBody} onChange={(e) => setLetterBody(e.target.value)} />

@@ -5,10 +5,10 @@ export interface PromptSelectorProps {
     unopenedCounts?: number[];
     openedCounts?: number[];
     label?: string;
-    defaultPrompts: string[];
+    prompts: string[];
 }
 
-export default function PromptSelector({ onSelectPrompt, unopenedCounts, openedCounts, defaultPrompts }: PromptSelectorProps) {
+export default function PromptSelector({ onSelectPrompt, unopenedCounts, openedCounts, prompts }: PromptSelectorProps) {
 
     const [showOtherInput, setShowOtherInput] = useState(false);
     const [selectedPrompt, setSelectedPrompt] = useState(''); // starts as ''
@@ -47,13 +47,13 @@ export default function PromptSelector({ onSelectPrompt, unopenedCounts, openedC
         open when&nbsp; 
             <select value={selectedPrompt} onChange={handleSelectChange} required autoFocus >
                 <option value="" disabled>select a prompt</option>
-                {defaultPrompts.map((prompt, index) => (
+                {prompts.map((prompt, index) => (
                     <option key={index} value={prompt} disabled={((openedCounts && unopenedCounts) && openedCounts[index] === 0 && unopenedCounts[index] === 0)}> 
                             {prompt} 
                     </option>
                 ))}
             </select>
-            {/* &nbsp;{(openedCounts && unopenedCounts) && selectedPrompt !== '' && ` (${openedCounts[defaultPrompts.indexOf(selectedPrompt)]} opened${`, ${unopenedCounts[defaultPrompts.indexOf(selectedPrompt)]} unopened`})`}  */}
+            {/* &nbsp;{(openedCounts && unopenedCounts) && selectedPrompt !== '' && ` (${openedCounts[prompts.indexOf(selectedPrompt)]} opened${`, ${unopenedCounts[prompts.indexOf(selectedPrompt)]} unopened`})`}  */}
         </label>
         &nbsp;
 
