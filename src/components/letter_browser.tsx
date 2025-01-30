@@ -1,7 +1,7 @@
 import Letter, { LetterProps } from '@/components/letter';
 import LetterOpener from '@/components/letter_opener';
 import PromptSelector from './prompt_selector';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import Envelope from '@/components/envelope';
 
 export interface LetterBrowserProps {
@@ -13,124 +13,124 @@ export interface LetterBrowserProps {
     unopenedCounts: number[];
     numOpenedLetters: number;
     numUnopenedLetters: number;
-    setNumUnopenedLetters: (value : number) => void;
-    setNumOpenedLetters: (value : number) => void;
+    setNumUnopenedLetters: (value: number) => void;
+    setNumOpenedLetters: (value: number) => void;
 }
 
-export default function LetterBrowser({ setView, openedLetters, unopenedLetters, prompts, openedCounts, unopenedCounts, setNumOpenedLetters, setNumUnopenedLetters, numOpenedLetters, numUnopenedLetters}: LetterBrowserProps) {
+// Handle keypress events for navigation
+const handleKeyDown = (event: KeyboardEvent, handlePrev: () => void, handleNext: () => void) => {
+    if (event.key === 'ArrowLeft') {
+        handlePrev();
+    } else if (event.key === 'ArrowRight') {
+        handleNext();
+    }
+};
+
+export default function LetterBrowser({ setView, openedLetters, unopenedLetters, prompts, openedCounts, unopenedCounts, setNumOpenedLetters, setNumUnopenedLetters, numOpenedLetters, numUnopenedLetters }: LetterBrowserProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedPrompt, setSelectedPrompt] = useState('');
-    const [numOpenedByPrompt, setNumOpenedByPrompt] = useState(0);
-    const [lettersForPrompt, setLettersForPrompt] = useState<LetterProps[]>(); // opened AND unopened
     const [browserView, setBrowserView] = useState('');
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === 'ArrowLeft') {
-            handlePrev();
-        } else if (event.key === 'ArrowRight') {
-            handleNext();
-        }
-    };
-
-    useEffect(() => {
-        window.addEventListener('keydown', handleKeyDown);
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [lettersForPrompt, currentIndex]); // Add dependencies to ensure the event listener is updated
-
-
-    useEffect(() => {
+    // Memoize the letters (both opened and unopened) filtered by the selected prompt (caches the result of the calculation between re-renders)
+    const lettersForPrompt = useMemo(() => {
         const filteredOpened = openedLetters.filter(letter => letter.prompt === selectedPrompt);
-        setNumOpenedByPrompt(filteredOpened.length);
         const filteredUnopened = unopenedLetters.filter(letter => letter.prompt === selectedPrompt);
-        setLettersForPrompt(filteredOpened.concat(filteredUnopened));
-        setCurrentIndex(0);
-    }, [selectedPrompt, openedLetters, unopenedLetters]) // effect will only activate if the values in the list change
+        return filteredOpened.concat(filteredUnopened);
+    }, [selectedPrompt, openedLetters, unopenedLetters]);
 
-    const handleNext = () => {
-        if (lettersForPrompt && currentIndex < lettersForPrompt.length - 1) {
-            setCurrentIndex(currentIndex + 1);
-        }
-    };
+    // Memoize the number of opened letters for the selected prompt (caches the result of the calculation between re-renders)
+    const numOpenedByPrompt = useMemo(() => {
+        return openedLetters.filter(letter => letter.prompt === selectedPrompt).length;
+    }, [selectedPrompt, openedLetters]);
 
-    const handlePrev = () => {
-        if (lettersForPrompt && currentIndex > 0) {
-            setCurrentIndex(currentIndex - 1);
-        }
-    };
-
+    // Render the letter (or envelope) based on the current index and selected prompt
     const renderLetters = () => {
-        // first show all opened letters, then show unopened letters as envelopes
-        if (!lettersForPrompt) {
-            return;
-        }
 
         if (selectedPrompt === '') {
             return (<div className='letter' style={{ 'backgroundColor': 'white' }}></div>);
         }
-        if (lettersForPrompt[currentIndex]) {
-            if (currentIndex <= numOpenedByPrompt - 1) {
-                return (<Letter {...lettersForPrompt[currentIndex]} />);
-            } else {
-                const author_name = lettersForPrompt[currentIndex].author_name;
-                const author_location = lettersForPrompt[currentIndex].author_location;
-                const created_date = lettersForPrompt[currentIndex].created_date;
-                return (<div>
-                    <Envelope prompt={selectedPrompt} browse={true} setView={setBrowserView} author_name={author_name} author_location={author_location} created_date={created_date} />
-                </div>
-                );
-            }
+
+        const letter = lettersForPrompt[currentIndex];
+
+        if (currentIndex <= numOpenedByPrompt - 1) {
+            return (<Letter {...letter} />);
+        } else {
+            const { author_name, author_location, created_date } = letter;
+            return (
+                <Envelope prompt={selectedPrompt} browse={true} setView={setBrowserView} author_name={author_name} author_location={author_location} created_date={created_date} />
+            );
         }
-        return;
     };
 
+    // Handle next button click (useCallback caches the function definition between re-renders)
+    const handleNext = useCallback(() => {
+        if (currentIndex < lettersForPrompt.length - 1) {
+            setCurrentIndex(currentIndex + 1);
+        }
+    }, [currentIndex, lettersForPrompt]);
+
+    // Handle previous button click (useCallback caches the function definition between re-renders)
+    const handlePrev = useCallback(() => {
+        if (currentIndex > 0) {
+            setCurrentIndex(currentIndex - 1);
+        }
+    }, [currentIndex]);
+
+    // Add event listener for keydown events
+    useEffect(() => {
+        const keyDownHandler = (event: KeyboardEvent) => handleKeyDown(event, handlePrev, handleNext);
+        window.addEventListener('keydown', keyDownHandler);
+        return () => {
+            window.removeEventListener('keydown', keyDownHandler);
+        };
+    }, [handlePrev, handleNext]);
+
     const renderNavigationButtons = () => {
-        let isPrevDisabled = false;
-        let isNextDisabled = false;
-
-        if (selectedPrompt === '') {
-            isPrevDisabled = true;
-            isNextDisabled = true;
-        }
-
-        if (currentIndex === 0) {
-            isPrevDisabled = true;
-        }
-
-        if (lettersForPrompt && (currentIndex >= lettersForPrompt.length - 1)) {
-            isNextDisabled = true;
-        }
+        const isPrevDisabled = currentIndex === 0 || selectedPrompt === '';
+        const isNextDisabled = currentIndex >= lettersForPrompt.length - 1 || selectedPrompt === '';
 
         return (selectedPrompt !== '' &&
             <>
-
-                <button className={isPrevDisabled ? 'disabled' : ''} onClick={handlePrev} disabled={isPrevDisabled}>prev</button>&nbsp;
+                <button className={isPrevDisabled ? 'disabled' : ''} onClick={handlePrev} disabled={isPrevDisabled}>prev</button>
+                &nbsp;
                 <button className={isNextDisabled ? 'disabled' : ''} onClick={handleNext} disabled={isNextDisabled}>next</button>
-                &nbsp;{(openedCounts && unopenedCounts) && selectedPrompt !== '' && ` (${openedCounts[prompts.indexOf(selectedPrompt)]} opened${`, ${unopenedCounts[prompts.indexOf(selectedPrompt)]} unopened`})`}
+                &nbsp;
+                {(openedCounts && unopenedCounts) && selectedPrompt !== '' && ` (${openedCounts[prompts.indexOf(selectedPrompt)]} opened${`, ${unopenedCounts[prompts.indexOf(selectedPrompt)]} unopened`})`}
             </>
         );
     };
 
+    const displayBrowserView = () => {
+        switch (browserView) {
+            case '':
+                return (
+                    <>
+                        <h2>browse letters</h2>
+                        <PromptSelector onSelectPrompt={setSelectedPrompt} prompts={prompts} label='available' openedCounts={openedCounts} unopenedCounts={unopenedCounts} />
+                        <br />
+                        {renderLetters()}
+                        <br />
+                        {renderNavigationButtons()}
+                        <br />
+                        <br />
+                    </>
+                );
+            case 'browserOpen':
+                return (
+                    <LetterOpener setView={setBrowserView} openedLetter={lettersForPrompt[currentIndex]} setNumUnopenedLetters={setNumUnopenedLetters} setNumOpenedLetters={setNumOpenedLetters} numUnopenedLetters={numUnopenedLetters} numOpenedLetters={numOpenedLetters} />
+                );
+            default:
+                return null;
+        }
+    };
+
     return (
-        <div>
-            {browserView === '' &&
-                <><h2>browse letters</h2>
-                    <PromptSelector onSelectPrompt={setSelectedPrompt} prompts={prompts} label='available' openedCounts={openedCounts} unopenedCounts={unopenedCounts} />
-                    <br />
-                    {renderLetters()}
-                    <br />
-                    {renderNavigationButtons()}
-                    <br />
-                    <br /></>
-            }
-
-            {browserView === 'browserOpen' && lettersForPrompt && <LetterOpener setView={setBrowserView} openedLetter={lettersForPrompt[currentIndex]} setNumUnopenedLetters={setNumUnopenedLetters} setNumOpenedLetters={setNumOpenedLetters} numUnopenedLetters={numUnopenedLetters} numOpenedLetters={numOpenedLetters} />}
-
+        <>
+            {displayBrowserView()}
             <br />
             <button onClick={() => setView('write')}>write a letter</button>
             <br />
             <br />
-        </div>
+        </>
     );
 }

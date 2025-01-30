@@ -67,7 +67,6 @@ export default function LetterEditor({ setView, prompts, numUnopenedLetters, set
                 <Envelope prompt={prompt} browse={false} setView={setView} author_name={authorName} author_location={authorLocation} created_date={new Date().toISOString()} />
                 <p>your letter has been submitted.</p>
                 <br />
-                <p>there are now <b>{numUnopenedLetters+1}</b> unopened letters!</p>
                 <br/>
                 <button onClick={() => setIsSubmitted(false)}>write another letter</button>&nbsp;
                 <br/><br/>
