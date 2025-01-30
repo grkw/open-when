@@ -10,7 +10,7 @@ export interface EnvelopeProps {
     setView: (value: string) => void;
 }
 
-export default function Envelope({ prompt, browse, setView, author_name, author_location, created_date}: EnvelopeProps) {
+export default function Envelope({ prompt, browse, setView, author_name, author_location, created_date }: EnvelopeProps) {
 
     return (
         <div className={styles.envelope}>
@@ -20,8 +20,10 @@ export default function Envelope({ prompt, browse, setView, author_name, author_
                 {prompt}
                 <p>written by <b>{author_name}</b> from <b>{author_location}</b> on <b>{formatDate(created_date)}</b></p>
             </div>
-            {browse && <><p>this is a new letter!</p>
-            <p> <button onClick={() => setView('browserOpen')}>open it?</button></p></>}
+            {browse && <>
+                <p>this is a new letter!</p>
+                <p><button onClick={() => setView('browserOpen')}>open it?</button></p>
+            </>}
         </div>
     );
 }
