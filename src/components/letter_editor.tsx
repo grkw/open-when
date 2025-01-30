@@ -6,9 +6,10 @@ export interface LetterEditorProps {
     setView: (value: string) => void;
     defaultPrompts: string[];
     numUnopenedLetters: number,
+    setNumUnopenedLetters: (value : number) => void;
 }
 
-export default function LetterEditor({ setView, defaultPrompts, numUnopenedLetters}: LetterEditorProps) {
+export default function LetterEditor({ setView, defaultPrompts, numUnopenedLetters, setNumUnopenedLetters}: LetterEditorProps) {
 
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [prompt, setPrompt] = useState('');
@@ -56,6 +57,7 @@ export default function LetterEditor({ setView, defaultPrompts, numUnopenedLette
             }
         })
 
+        setNumUnopenedLetters(numUnopenedLetters+1);
     };
 
     if (isSubmitted) {

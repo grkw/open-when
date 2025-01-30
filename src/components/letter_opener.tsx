@@ -5,12 +5,16 @@ import Letter from "@/components/letter";
 export interface LetterOpenerProps {
     setView: (value: string) => void;
     openedLetter: LetterProps;
+    setNumOpenedLetters: (value : number) => void;
+    setNumUnopenedLetters: (value : number) => void;
+    numUnopenedLetters: number;
+    numOpenedLetters: number;
 }
 
 // Similar to LetterBrowser but:
 // 1. we allow the user to insert their info in the "read" field in the letter
 // 2. and we only let them open one letter.
-export default function LetterOpener({ setView, openedLetter }: LetterOpenerProps) {
+export default function LetterOpener({ setView, openedLetter, setNumOpenedLetters, setNumUnopenedLetters, numOpenedLetters, numUnopenedLetters}: LetterOpenerProps) {
 
     const [openerName, setOpenerName] = useState<string>('');
     const [openerLocation, setOpenerLocation] = useState<string>('');
@@ -39,6 +43,9 @@ export default function LetterOpener({ setView, openedLetter }: LetterOpenerProp
                 return await response.json()
             }
         })
+
+        setNumOpenedLetters(numOpenedLetters+1);
+        setNumUnopenedLetters(numUnopenedLetters-1);
     }
 
     return (

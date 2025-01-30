@@ -11,6 +11,8 @@ export default function Home() {
   const [unopenedLetters, setUnopenedLetters] = useState<LetterProps[]>([]);
   const [unopenedCounts, setUnopenedCounts] = useState<number[]>([]);
   const [openedCounts, setOpenedCounts] = useState<number[]>([]);
+  const [numUnopenedLetters, setNumUnopenedLetters] = useState<number>(0);
+  const [numOpenedLetters, setNumOpenedLetters] = useState<number>(0);
   const [prompts, setPrompts] = useState<string[]>([]);
 
   useEffect(() => {
@@ -24,14 +26,12 @@ export default function Home() {
         if (openedResponse.error) {
           console.error('Error fetching opened letters:', openedResponse.error);
         } else {
-          // console.log('Opened letters:', openedResponse.data);
           setOpenedLetters(openedResponse.data);
         }
 
         if (unopenedResponse.error) {
           console.error('Error fetching unopened letters:', unopenedResponse.error);
         } else {
-          // console.log('Unopened letters:', unopenedResponse.data);
           setUnopenedLetters(unopenedResponse.data);
         }
 
@@ -49,9 +49,6 @@ export default function Home() {
   useEffect(() => {
     if (unopenedLetters.length > 0 || openedLetters.length > 0) {
 
-      // console.log("unopened Prompts", unopenedLetters.map(letter => letter.prompt));
-      // console.log("opened Prompts", openedLetters.map(letter => letter.prompt));
-
       const uniquePrompts = new Set([
         ...unopenedLetters.map(letter => letter.prompt),
         ...openedLetters.map(letter => letter.prompt)
@@ -62,7 +59,6 @@ export default function Home() {
   }, [openedLetters, unopenedLetters]);
 
   useEffect(() => {
-    // console.log("unique Prompts", Array.from(prompts));
 
     const unopenedCountsByPrompt = new Array(prompts.length).fill(0);
     const openedCountsByPrompt = new Array(prompts.length).fill(0);
@@ -72,7 +68,7 @@ export default function Home() {
       if (index !== -1) {
         openedCountsByPrompt[index]++;
       } else {
-        console.log("error");
+        console.log("error: opened letter prompt not in prompts");
       }
     })
 
@@ -81,25 +77,32 @@ export default function Home() {
       if (index !== -1) {
         unopenedCountsByPrompt[index]++;
       } else {
-        console.log("error");
+        console.log("error: unopened letter prompt not in prompts");
       }
     })
 
     setOpenedCounts(openedCountsByPrompt);
     setUnopenedCounts(unopenedCountsByPrompt);
-    // console.log("unopened counts", unopenedCountsByPrompt);
-    // console.log("opened counts", openedCountsByPrompt);
 
   }, [prompts, openedLetters, unopenedLetters]);
 
-  const numUnopenedLetters = unopenedLetters ? unopenedCounts.reduce((partialSum, a) => partialSum + a, 0) : NaN;
-  const numOpenedLetters = openedLetters ? openedCounts.reduce((partialSum, a) => partialSum + a, 0) : NaN;
+  useEffect(() => {
+    const numUnopenedLetters = unopenedLetters ? unopenedCounts.reduce((partialSum, a) => partialSum + a, 0) : NaN;
+    const numOpenedLetters = openedLetters ? openedCounts.reduce((partialSum, a) => partialSum + a, 0) : NaN;
+    setNumUnopenedLetters(numUnopenedLetters);
+    setNumOpenedLetters(numOpenedLetters);
+  }, [unopenedCounts, openedCounts]);
 
   return (
     <div className="wrapper">
       <div style={{ display: 'flex' }}>
         <h1>open when...</h1>
         <button style={{ marginTop: 'auto', marginBottom: '10px' }} onClick={() => setView('instructions')}>home</button>
+        <p style={{ marginTop: 'auto', marginBottom: '10px', marginLeft: 'auto'}}>
+        <b>{numOpenedLetters}</b>&nbsp;opened letters 
+        <br/> 
+        <b>{numUnopenedLetters}</b>&nbsp;new letters
+        </p>
       </div>
       {view === 'instructions' &&
         <div>
@@ -111,25 +114,24 @@ export default function Home() {
           <h2>getting started</h2>
           <p>welcome, internet friend! how are you feeling?</p>
           <br />
-          <p>want some advice on how to navigate a particular feeling? you can <button onClick={() => setView('browse')}>browse letters</button> that have been written by past site visitors. as of now, there are currently <b>{numOpenedLetters} opened letters</b> (which another person has opened and signed, and now anyone can read) and <b>{numUnopenedLetters} new letters</b> (letters that have yet to be opened and signed).</p>
+          <p>want some advice on how to navigate a particular feeling? you can <button onClick={() => setView('browse')}>browse letters</button> that have been written by past site visitors.</p>
           <br />
           <p>want to provide emotional support to a fellow internet friend? you can <button onClick={() => setView('write')}>write a letter</button> for someone else to open. I find that the act of writing is immensely valuable in itself.</p>
-
-
-          {/* <h2>the making of</h2> */}
+          <br />
+          <p> as of now, there are <b>{numOpenedLetters}</b> opened letters (which another person has opened and signed, and now anyone can read) and <b>{numUnopenedLetters}</b> new letters (letters that have yet to be opened and signed).</p>
           <br />
           <br />
           <br />
-          {/* <p style={{marginBottom: '0px', width: '100vw'}}>made by <u><a href="https://gracekwak.me/">Grace</a></u> (she/her) at the <u><a href="https://www.recurse.com/">Recurse Center</a></u> in January 2025. (<u><a href="https://github.com/grkw/open-when/tree/main">source code</a></u>). still a work in progress; I&apos;m planning to apply <u><a href="https://www.inkandswitch.com/local-first/">local-first</a></u> principles to it and make some UI improvements.</p> */}
-
+          <br />
+          <br />
         </div>
       }
 
       {view === 'browse' && (
-        <LetterBrowser setView={setView} unopenedLetters={unopenedLetters} openedLetters={openedLetters} openedCounts={openedCounts} unopenedCounts={unopenedCounts} defaultPrompts={prompts} />
+        <LetterBrowser setView={setView} unopenedLetters={unopenedLetters} openedLetters={openedLetters} openedCounts={openedCounts} unopenedCounts={unopenedCounts} defaultPrompts={prompts} numUnopenedLetters={numUnopenedLetters} numOpenedLetters={numOpenedLetters} setNumOpenedLetters={setNumOpenedLetters} setNumUnopenedLetters={setNumUnopenedLetters} />
       )}
       {view === 'write' && (
-        <LetterEditor setView={setView} defaultPrompts={prompts} numUnopenedLetters={numUnopenedLetters} />
+        <LetterEditor setView={setView} defaultPrompts={prompts} numUnopenedLetters={numUnopenedLetters} setNumUnopenedLetters={setNumUnopenedLetters} />
       )}
 
 

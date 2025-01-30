@@ -11,9 +11,13 @@ export interface LetterBrowserProps {
     defaultPrompts: string[];
     openedCounts: number[];
     unopenedCounts: number[];
+    numOpenedLetters: number;
+    numUnopenedLetters: number;
+    setNumUnopenedLetters: (value : number) => void;
+    setNumOpenedLetters: (value : number) => void;
 }
 
-export default function LetterBrowser({ setView, openedLetters, unopenedLetters, defaultPrompts, openedCounts, unopenedCounts }: LetterBrowserProps) {
+export default function LetterBrowser({ setView, openedLetters, unopenedLetters, defaultPrompts, openedCounts, unopenedCounts, setNumOpenedLetters, setNumUnopenedLetters, numOpenedLetters, numUnopenedLetters}: LetterBrowserProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedPrompt, setSelectedPrompt] = useState('');
     const [numOpenedByPrompt, setNumOpenedByPrompt] = useState(0);
@@ -108,11 +112,6 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
         );
     };
 
-    // console.log("view", view);
-    // if (lettersForPrompt && lettersForPrompt[currentIndex]) {
-    //     console.log("lettersForPrompt[currentIndex].id", lettersForPrompt[currentIndex].id);
-    // }
-
     return (
         <div>
             {browserView === '' &&
@@ -126,7 +125,7 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
                     <br /></>
             }
 
-            {browserView === 'browserOpen' && lettersForPrompt && <LetterOpener setView={setBrowserView} openedLetter={lettersForPrompt[currentIndex]} />}
+            {browserView === 'browserOpen' && lettersForPrompt && <LetterOpener setView={setBrowserView} openedLetter={lettersForPrompt[currentIndex]} setNumUnopenedLetters={setNumUnopenedLetters} setNumOpenedLetters={setNumOpenedLetters} numUnopenedLetters={numUnopenedLetters} numOpenedLetters={numOpenedLetters} />}
 
             <br />
             <button onClick={() => setView('write')}>write a letter</button>
