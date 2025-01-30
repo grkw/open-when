@@ -1,66 +1,50 @@
 import { useState } from 'react';
 
 export interface PromptSelectorProps {
-    onSelectPrompt?: (prompt: string) => void; // `?` means optional
-    unopenedCounts?: number[];
-    openedCounts?: number[];
-    label?: string;
+    selectedPrompt: string;
+    setSelectedPrompt: (prompt: string) => void;
     prompts: string[];
 }
 
-export default function PromptSelector({ onSelectPrompt, unopenedCounts, openedCounts, prompts }: PromptSelectorProps) {
+export default function PromptSelector({ selectedPrompt, setSelectedPrompt, prompts }: PromptSelectorProps) {
 
     const [showOtherInput, setShowOtherInput] = useState(false);
-    const [selectedPrompt, setSelectedPrompt] = useState(''); // starts as ''
     const [otherPrompt, setOtherPrompt] = useState(''); 
-    // TS interface to type the event object for the handleSelectChange function
-    interface SelectChangeEvent {
-        target: { // target element that triggered the event
-            value: string; //value of the target element
-        };
-    }
 
-    const handleSelectChange = (event: SelectChangeEvent) => {
+    const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value;
         setSelectedPrompt(value);
-        if (onSelectPrompt) {
-            onSelectPrompt(value);
-        }
-        if (value === 'other') {
-            setShowOtherInput(true); //sets showOtherInput to true
-        } else {
-            setShowOtherInput(false); //sets showOtherInput to false
-        }
+        setShowOtherInput(value === 'other');
     };
 
     const handleOtherChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         setOtherPrompt(value);
-
-        if (onSelectPrompt) {
-            onSelectPrompt(value);
-        }
+        setSelectedPrompt(value);
     };
 
-    return (<div>
-        <label>
-        open when&nbsp; 
-            <select value={selectedPrompt} onChange={handleSelectChange} required autoFocus >
-                <option value="" disabled>select a prompt</option>
-                {prompts.map((prompt, index) => (
-                    <option key={index} value={prompt} disabled={((openedCounts && unopenedCounts) && openedCounts[index] === 0 && unopenedCounts[index] === 0)}> 
-                            {prompt} 
-                    </option>
-                ))}
-            </select>
-            {/* &nbsp;{(openedCounts && unopenedCounts) && selectedPrompt !== '' && ` (${openedCounts[prompts.indexOf(selectedPrompt)]} opened${`, ${unopenedCounts[prompts.indexOf(selectedPrompt)]} unopened`})`}  */}
-        </label>
-        &nbsp;
-
-        {showOtherInput && (
+    return (
+        <div>
             <label>
-                <input type="text" placeholder="please specify" value={otherPrompt} onChange={handleOtherChange}/>
+                open when&nbsp;
+                <select value={selectedPrompt} onChange={handleSelectChange} required autoFocus>
+                    <option value="" disabled>select a prompt</option>
+                    {prompts.map((prompt, index) => (
+                        <option
+                            key={index}
+                            value={prompt}
+                        >
+                            {prompt}
+                        </option>
+                    ))}
+                </select>
             </label>
-        )}</div>
-    )
+            &nbsp;
+            {showOtherInput && (
+                <label>
+                    <input type="text" placeholder="please specify" value={otherPrompt} onChange={handleOtherChange} />
+                </label>
+            )}
+        </div>
+    );
 }

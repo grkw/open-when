@@ -106,7 +106,7 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
                 return (
                     <>
                         <h2>browse letters</h2>
-                        <PromptSelector onSelectPrompt={setSelectedPrompt} prompts={prompts} label='available' openedCounts={openedCounts} unopenedCounts={unopenedCounts} />
+                        <PromptSelector selectedPrompt={selectedPrompt} setSelectedPrompt={setSelectedPrompt} prompts={prompts} />
                         <br />
                         {renderLetters()}
                         <br />
