@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { supabase } from "@/utils/supabase/client";
 
 import { calculateCounts, calculateTotalCount } from '@/utils/utils';
 import { useFetchLetters } from '@/utils/useFetchLetters';
@@ -7,7 +6,6 @@ import Header from "@/components/header";
 import Welcome from "@/components/welcome";
 import LetterBrowser from "@/components/letter_browser";
 import LetterEditor from "@/components/letter_editor";
-import { LetterProps } from "@/components/letter";
 
 export default function Home() {
 
