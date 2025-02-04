@@ -3,8 +3,7 @@ import { supabase } from '@/utils/supabase/client';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
-        const { opener_name, opener_location, id } = req.body;
-        const opened_date = new Date().toISOString();
+        const { opener_name, opener_location, id, opened_date } = req.body;
         try {
             const { data, error } = await supabase.from('letters').update([
                 {

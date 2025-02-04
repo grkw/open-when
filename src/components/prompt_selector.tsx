@@ -21,6 +21,7 @@ export default function PromptSelector({ selectedPrompt, setSelectedPrompt, prom
         const value = event.target.value;
         setOtherPrompt(value);
         setSelectedPrompt(value);
+        console.log('selected prompt: ', value);
     };
 
     return (
