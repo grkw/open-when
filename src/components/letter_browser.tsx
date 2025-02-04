@@ -17,6 +17,14 @@ export interface LetterBrowserProps {
     setNumOpenedLetters: (value: number) => void;
 }
 
+export interface UpdatedOpenedLetterProps {
+    id: number,
+    opener_name: string,
+    opener_location: string,
+    opened_date: string,
+    is_opened: boolean
+}
+
 // Handle keypress events for navigation
 const handleKeyDown = (event: KeyboardEvent, handlePrev: () => void, handleNext: () => void) => {
     if (event.key === 'ArrowLeft') {
@@ -30,6 +38,9 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedPrompt, setSelectedPrompt] = useState('');
     const [browserView, setBrowserView] = useState('');
+    const [updatedLetterProps, setUpdatedLetterProps] = useState<UpdatedOpenedLetterProps>();
+    const [openerName, setOpenerName] = useState<string>('');
+    const [openerLocation, setOpenerLocation] = useState<string>('');
 
     // Memoize the letters (both opened and unopened) filtered by the selected prompt (caches the result of the calculation between re-renders)
     const lettersForPrompt = useMemo(() => {
@@ -43,6 +54,45 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
         return openedLetters.filter(letter => letter.prompt === selectedPrompt).length;
     }, [selectedPrompt, openedLetters]);
 
+    const handleOpenClick = (id: number) => {
+        console.log("handleOpenClick");
+        setView('open');
+
+        setUpdatedLetterProps(() => {
+            const newProps = {
+                id: id,
+                opener_name: openerName,
+                opener_location: openerLocation,
+                opened_date: new Date().toISOString(),
+                is_opened: true,
+            };
+            console.log('UpdatedOpenedLetterProps:', newProps);
+            return newProps;
+        });
+
+    };
+
+    useEffect(() => {
+        console.log("use effect for updatedletterprops");
+        if (updatedLetterProps) {
+            console.log("in if(updatedletterprops)");
+            fetch("/api/open_letter", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(updatedLetterProps),
+            }).then(async (response) => {
+                if (response.ok) {
+                    setNumOpenedLetters(numOpenedLetters + 1);
+                    setNumUnopenedLetters(numUnopenedLetters - 1);
+                    console.log("response was ok");
+                    return await response.json();
+                }
+            });
+        }
+    }, [updatedLetterProps]);
+
     // Render the letter (or envelope) based on the current index and selected prompt
     const renderLetters = () => {
 
@@ -51,13 +101,34 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
         }
 
         const letter = lettersForPrompt[currentIndex];
+        const hasInputInfo = openerName != '' && openerLocation != '';
 
         if (currentIndex <= numOpenedByPrompt - 1) {
             return (<Letter {...letter} />);
         } else {
-            const { author_name, author_location, created_date } = letter;
+            const { author_name, author_location, created_date, id } = letter;
             return (
-                <Envelope prompt={selectedPrompt} browse={true} setView={setBrowserView} author_name={author_name} author_location={author_location} created_date={created_date} />
+                <>
+                    <Envelope prompt={selectedPrompt} author_name={author_name} author_location={author_location} created_date={created_date} />
+                    <p>this is a new letter! if you&apos;d like to open it, please put your name and location.</p>
+                    <br />
+                    <div style={{ display: 'inline' }}>
+                        <br />
+                        <form>
+                        <label>
+                            <input id="authorname" style={{ width: '7em' }} minLength={0} maxLength={25} placeholder='your name' value={openerName} onChange={(e) => setOpenerName && setOpenerName(e.target.value)} required />&nbsp;
+                        </label>
+                        &nbsp;
+                        <label>
+                            <input id="authorlocation" style={{ width: '13em' }} minLength={0} maxLength={25} value={openerLocation} onChange={(e) => setOpenerLocation && setOpenerLocation(e.target.value)} placeholder="where you're reading from" required />&nbsp;
+                        </label>
+                        &nbsp;
+                        <button type='submit' onClick={() => handleOpenClick(id)} className={hasInputInfo ? '' : 'disabled'} disabled={!hasInputInfo}>open</button>
+                        </form>
+                        <br />
+                        <br />
+                    </div>
+                </>
             );
         }
     };
@@ -117,7 +188,7 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
                 );
             case 'browserOpen':
                 return (
-                    <LetterOpener setView={setBrowserView} openedLetter={lettersForPrompt[currentIndex]} setNumUnopenedLetters={setNumUnopenedLetters} setNumOpenedLetters={setNumOpenedLetters} numUnopenedLetters={numUnopenedLetters} numOpenedLetters={numOpenedLetters} />
+                    <LetterOpener setView={setBrowserView} openedLetter={lettersForPrompt[currentIndex]} openerProps={updatedLetterProps} />
                 );
             default:
                 return null;

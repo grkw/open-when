@@ -63,7 +63,7 @@ export default function LetterEditor({ setView, prompts, numUnopenedLetters, set
         return (
             <>
                 <br />
-                <Envelope prompt={prompt} browse={false} setView={setView} author_name={authorName} author_location={authorLocation} created_date={new Date().toISOString()} />
+                <Envelope prompt={prompt} author_name={authorName} author_location={authorLocation} created_date={new Date().toISOString()} />
                 <p>your letter has been submitted.</p>
                 <br />
                 <br />
