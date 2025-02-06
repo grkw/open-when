@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import React from 'react';
 
 export interface PromptSelectorProps {
     selectedPrompt: string;
@@ -6,7 +7,7 @@ export interface PromptSelectorProps {
     prompts: string[];
 }
 
-export default function PromptSelector({ selectedPrompt, setSelectedPrompt, prompts }: PromptSelectorProps) {
+const PromptSelector = React.memo(({ selectedPrompt, setSelectedPrompt, prompts } : PromptSelectorProps) => {
 
     const [showOtherInput, setShowOtherInput] = useState(false);
     const [otherPrompt, setOtherPrompt] = useState(''); 
@@ -23,6 +24,8 @@ export default function PromptSelector({ selectedPrompt, setSelectedPrompt, prom
         setSelectedPrompt(value);
         console.log('selected prompt: ', value);
     };
+
+    // console.log("prompt selector render");
 
     return (
         <div>
@@ -48,4 +51,6 @@ export default function PromptSelector({ selectedPrompt, setSelectedPrompt, prom
             )}
         </div>
     );
-}
+});
+
+export default PromptSelector;

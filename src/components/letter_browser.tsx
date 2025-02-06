@@ -54,9 +54,13 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
         return openedLetters.filter(letter => letter.prompt === selectedPrompt).length;
     }, [selectedPrompt, openedLetters]);
 
+    useEffect(() => {
+        console.log("reset current index");
+        setCurrentIndex(0);
+    }, [selectedPrompt]);
+
     const handleOpenClick = (id: number) => {
         console.log("handleOpenClick");
-        setView('open');
 
         setUpdatedLetterProps(() => {
             const newProps = {
@@ -87,6 +91,7 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
                     setNumOpenedLetters(numOpenedLetters + 1);
                     setNumUnopenedLetters(numUnopenedLetters - 1);
                     console.log("response was ok");
+                    setBrowserView('open');
                     return await response.json();
                 }
             });
@@ -94,7 +99,7 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
     }, [updatedLetterProps]);
 
     // Render the letter (or envelope) based on the current index and selected prompt
-    const renderLetters = () => {
+    const RenderLetters = () => {
 
         if (selectedPrompt === '') {
             return (<div className='letter' style={{ 'backgroundColor': 'white' }}></div>);
@@ -105,22 +110,25 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
 
         if (currentIndex <= numOpenedByPrompt - 1) {
             return (<Letter {...letter} />);
+        } else if (!letter) {
+            console.log("wait for index to reset"); //TODO: Find a less hacky solution for not re-rendering before the useEffect triggers.
+            return;
         } else {
+            console.log("index ok");
             const { author_name, author_location, created_date, id } = letter;
             return (
                 <>
                     <Envelope prompt={selectedPrompt} author_name={author_name} author_location={author_location} created_date={created_date} />
-                    <p>this is a new letter! if you&apos;d like to open it, please put your name and location.</p>
                     <br />
+                    <p>this is a new letter! if you&apos;d like to open it, please put your name and location:</p>
                     <div style={{ display: 'inline' }}>
-                        <br />
                         <form>
                         <label>
-                            <input id="authorname" style={{ width: '7em' }} minLength={0} maxLength={25} placeholder='your name' value={openerName} onChange={(e) => setOpenerName && setOpenerName(e.target.value)} required />&nbsp;
+                            <input id="openername" style={{ width: '7em' }} minLength={0} maxLength={25} placeholder='your name' value={openerName} onChange={(e) => setOpenerName(e.target.value)} required />&nbsp;
                         </label>
                         &nbsp;
                         <label>
-                            <input id="authorlocation" style={{ width: '13em' }} minLength={0} maxLength={25} value={openerLocation} onChange={(e) => setOpenerLocation && setOpenerLocation(e.target.value)} placeholder="where you're reading from" required />&nbsp;
+                            <input id="openerlocation" style={{ width: '13em' }} minLength={0} maxLength={25} value={openerLocation} onChange={(e) => setOpenerLocation(e.target.value)} placeholder="where you're reading from" required />&nbsp;
                         </label>
                         &nbsp;
                         <button type='submit' onClick={() => handleOpenClick(id)} className={hasInputInfo ? '' : 'disabled'} disabled={!hasInputInfo}>open</button>
@@ -156,7 +164,7 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
         };
     }, [handlePrev, handleNext]);
 
-    const renderNavigationButtons = () => {
+    const RenderNavigationButtons = () => {
         const isPrevDisabled = currentIndex === 0 || selectedPrompt === '';
         const isNextDisabled = currentIndex >= lettersForPrompt.length - 1 || selectedPrompt === '';
 
@@ -171,7 +179,7 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
         );
     };
 
-    const displayBrowserView = () => {
+    const DisplayBrowserView = () => {
         switch (browserView) {
             case '':
                 return (
@@ -179,9 +187,9 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
                         <h2>browse letters</h2>
                         <PromptSelector selectedPrompt={selectedPrompt} setSelectedPrompt={setSelectedPrompt} prompts={prompts} />
                         <br />
-                        {renderLetters()}
+                        <RenderLetters/>
                         <br />
-                        {renderNavigationButtons()}
+                        <RenderNavigationButtons/>
                         <br />
                         <br />
                     </>
@@ -194,10 +202,11 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
                 return null;
         }
     };
-
+//
     return (
         <>
-            {displayBrowserView()}
+            {/* {displayBrowserView()}  */}
+            <DisplayBrowserView/>
             <br />
             <button onClick={() => setView('write')}>write a letter</button>
             <br />

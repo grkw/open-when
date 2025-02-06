@@ -39,9 +39,31 @@ export default function Home() {
     }
   };
 
+  // useEffect(() => {
+  //   console.log("moderate text use effect");
+  //   fetch("/api/moderate_text", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify("you're smart"),
+  //   }).then(async (response) => {
+  //     if (response.ok) {
+  //       return await response.json()
+  //     }
+  //   }).then((data) => {console.log(data)})
+  // }, []);
+// }).then((data) => {
+//   // do stuff with response here
+// }).catch((error) => {
+//   console.error(error)
+//   // do stuff with error here
+// })
+// }
+
   return (
     <div className="wrapper">
-      <Header setView={setView} numOpenedLetters={numOpenedLetters} numUnopenedLetters={numUnopenedLetters}/>
+      <Header setView={setView} numOpenedLetters={numOpenedLetters} numUnopenedLetters={numUnopenedLetters} />
       {displayView()}
     </div>
   );
