@@ -89,10 +89,10 @@ export default function LetterEditor({ setView, prompts, numUnopenedLetters, set
                         <br />
                         <div style={{ alignSelf: 'flex-start' }}>
                             <label>
-                                written by <input id="authorname" type="text" style={{ width: '10em' }} minLength={0} maxLength={25} placeholder='your name' value={authorName} onChange={(e) => setAuthorName(e.target.value)} />
+                                written by <input id="authorname" type="text" style={{ width: '10em' }} minLength={1} maxLength={25} placeholder='your name' value={authorName} onChange={(e) => setAuthorName(e.target.value)} required />
                             </label>
                             <label>
-                                &nbsp;from <input id="authorlocation" type="text" style={{ width: '13em' }} minLength={0} maxLength={25} placeholder={'where you\'re writing from'} value={authorLocation} onChange={(e) => setAuthorLocation(e.target.value)} />
+                                &nbsp;from <input id="authorlocation" type="text" style={{ width: '13em' }} minLength={1} maxLength={25} placeholder={'where you\'re writing from'} value={authorLocation} onChange={(e) => setAuthorLocation(e.target.value)} required/>
                             </label>
                             <label>
                                 &nbsp;on {formatDate(new Date().toISOString())}

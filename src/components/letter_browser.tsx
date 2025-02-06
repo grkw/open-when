@@ -122,17 +122,15 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
                     <br />
                     <p>this is a new letter! if you&apos;d like to open it, please put your name and location:</p>
                     <div style={{ display: 'inline' }}>
-                        <form>
                         <label>
-                            <input id="openername" style={{ width: '7em' }} minLength={0} maxLength={25} placeholder='your name' value={openerName} onChange={(e) => setOpenerName(e.target.value)} required />&nbsp;
+                            <input id="openername" type="text" style={{ width: '7em' }} minLength={1} maxLength={25} placeholder='your name' value={openerName} onChange={(e) => setOpenerName(e.target.value)} required />&nbsp;
                         </label>
                         &nbsp;
                         <label>
-                            <input id="openerlocation" style={{ width: '13em' }} minLength={0} maxLength={25} value={openerLocation} onChange={(e) => setOpenerLocation(e.target.value)} placeholder="where you're reading from" required />&nbsp;
+                            <input id="openerlocation" type="text" style={{ width: '13em' }} minLength={1} maxLength={25} value={openerLocation} onChange={(e) => setOpenerLocation(e.target.value)} placeholder="where you're reading from" required />&nbsp;
                         </label>
                         &nbsp;
                         <button type='submit' onClick={() => handleOpenClick(id)} className={hasInputInfo ? '' : 'disabled'} disabled={!hasInputInfo}>open</button>
-                        </form>
                         <br />
                         <br />
                     </div>
