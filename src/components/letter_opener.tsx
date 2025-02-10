@@ -11,6 +11,7 @@ export interface LetterOpenerProps {
 
 export default function LetterOpener({ setView, openedLetter, openerProps }: LetterOpenerProps) {
 
+    console.log("in letter opener");
     return (
         <>
             <h2>open a new letter</h2>
@@ -34,7 +35,7 @@ export default function LetterOpener({ setView, openedLetter, openerProps }: Let
             <br />
             <p>all good?&nbsp;<button onClick={() => setView('')}>return to browsing</button></p>
             <br />
-            <br />
+           
             <p>not nice?&nbsp;<button>remove from the repository</button></p>
         </>
     );

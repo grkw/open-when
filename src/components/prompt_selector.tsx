@@ -31,7 +31,7 @@ const PromptSelector = React.memo(({ selectedPrompt, setSelectedPrompt, prompts 
         <div>
             <label>
                 open when&nbsp;
-                <select value={selectedPrompt} onChange={handleSelectChange} required autoFocus={false}>
+                <select value={selectedPrompt} onChange={handleSelectChange} required autoFocus>
                     <option value="" disabled>select a prompt</option>
                     {prompts.map((prompt, index) => (
                         <option

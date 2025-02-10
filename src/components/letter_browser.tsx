@@ -42,6 +42,8 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
     const [openerName, setOpenerName] = useState<string>('');
     const [openerLocation, setOpenerLocation] = useState<string>('');
 
+    console.log("browserView: ", browserView);
+
     // Memoize the letters (both opened and unopened) filtered by the selected prompt (caches the result of the calculation between re-renders)
     const lettersForPrompt = useMemo(() => {
         const filteredOpened = openedLetters.filter(letter => letter.prompt === selectedPrompt);
@@ -91,7 +93,7 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
                     setNumOpenedLetters(numOpenedLetters + 1);
                     setNumUnopenedLetters(numUnopenedLetters - 1);
                     console.log("response was ok");
-                    setBrowserView('open');
+                    setBrowserView('browserOpen');
                     return await response.json();
                 }
             });
@@ -99,7 +101,7 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
     }, [updatedLetterProps]);
 
     // Render the letter (or envelope) based on the current index and selected prompt
-    const RenderLetters = () => {
+    const renderLetters = () => {
 
         if (selectedPrompt === '') {
             return (<div className='letter' style={{ 'backgroundColor': 'white' }}></div>);
@@ -177,34 +179,52 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
         );
     };
 
-    const DisplayBrowserView = () => {
-        switch (browserView) {
-            case '':
-                return (
-                    <>
-                        <h2>browse letters</h2>
-                        <PromptSelector selectedPrompt={selectedPrompt} setSelectedPrompt={setSelectedPrompt} prompts={prompts} />
-                        <br />
-                        <RenderLetters/>
-                        <br />
-                        <RenderNavigationButtons/>
-                        <br />
-                        <br />
-                    </>
-                );
-            case 'browserOpen':
-                return (
-                    <LetterOpener setView={setBrowserView} openedLetter={lettersForPrompt[currentIndex]} openerProps={updatedLetterProps} />
-                );
-            default:
-                return null;
-        }
-    };
+    // const displayBrowserView = () => {
+    //     switch (browserView) {
+    //         // case '':
+    //         case 'browserOpen':
+    //             console.log("switch browserOpen");
+    //             return (
+    //                 <LetterOpener setView={setBrowserView} openedLetter={lettersForPrompt[currentIndex]} openerProps={updatedLetterProps} />
+    //             );
+    //         default:
+    //             // console.log("null");
+    //             // return null;
+    //             console.log("switch empty");
+    //             return (
+    //                 <>
+    //                     <h2>browse letters</h2>
+    //                     <PromptSelector selectedPrompt={selectedPrompt} setSelectedPrompt={setSelectedPrompt} prompts={prompts} />
+    //                     <br />
+    //                     {renderLetters()}
+    //                     {/* <RenderLetters/> */}
+    //                     <br />
+    //                     <RenderNavigationButtons/>
+    //                     <br />
+    //                     <br />
+    //                 </>
+    //             );
+    //     }
+    // };
 //
     return (
         <>
-            {/* {displayBrowserView()}  */}
-            <DisplayBrowserView/>
+            {
+               browserView !== 'browserOpen' && 
+                <>
+                <h2>browse letters</h2>
+                <PromptSelector selectedPrompt={selectedPrompt} setSelectedPrompt={setSelectedPrompt} prompts={prompts} />
+                <br />
+                {renderLetters()}
+                <br />
+                <RenderNavigationButtons/>
+                <br />
+                <br />
+            </>  
+            }
+            {
+                browserView === 'browserOpen' && <LetterOpener setView={setBrowserView} openedLetter={lettersForPrompt[currentIndex]} openerProps={updatedLetterProps} />
+            }
             <br />
             <button onClick={() => setView('write')}>write a letter</button>
             <br />
