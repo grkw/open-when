@@ -220,15 +220,15 @@ export default function LetterBrowser({ setView, openedLetters, unopenedLetters,
                 <RenderNavigationButtons/>
                 <br />
                 <br />
+                <br />
+                <button onClick={() => setView('write')}>write a letter</button>
+                <br />
+                <br />
             </>  
             }
             {
                 browserView === 'browserOpen' && <LetterOpener setView={setBrowserView} openedLetter={lettersForPrompt[currentIndex]} openerProps={updatedLetterProps} />
             }
-            <br />
-            <button onClick={() => setView('write')}>write a letter</button>
-            <br />
-            <br />
         </>
     );
 }

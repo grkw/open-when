@@ -11,14 +11,11 @@ export interface LetterProps {
     opened_date: string,
     letter_body: string,
     is_opened: boolean,
-    setOpenerName?: (value: string) => void;
-    setOpenerLocation?: (value: string) => void;
-    setHasClickedRead?: (value: boolean) => void;
 }
 
 export default function Letter(props: LetterProps) {
 
-    const { prompt, author_name, author_location, created_date, opener_name, opener_location, opened_date, letter_body, setOpenerName, setOpenerLocation, setHasClickedRead } = props;
+    const { prompt, author_name, author_location, created_date, opener_name, opener_location, opened_date, letter_body} = props;
 
     const renderLetter = () => {
         return (

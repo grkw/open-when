@@ -1,4 +1,6 @@
-export const calculateCounts = (letters: any[], prompts: string[]) => {
+import {LetterProps} from '@/components/letter';
+
+export const calculateCounts = (letters: LetterProps[], prompts: string[]) => {
   const countsByPrompt = new Array(prompts.length).fill(0);
 
   letters.forEach(letter => {

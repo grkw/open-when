@@ -53,4 +53,6 @@ const PromptSelector = React.memo(({ selectedPrompt, setSelectedPrompt, prompts 
     );
 });
 
+PromptSelector.displayName = 'PromptSelector';
+
 export default PromptSelector;
